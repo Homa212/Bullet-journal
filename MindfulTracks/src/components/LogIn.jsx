@@ -1,40 +1,43 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Validation from "./LogInValidation";
 
+function LogIn() {
+    const [values, setValues] = useState({
+        email: "",
+        password: ""
+    });
 
-function LogInBox() {
+    const [errors, setErrors] =useState({})
+    const handleInput = (event) => {
+        setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+    }
 
-    const [user, setNewUser] = useState([]);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    
-    const handleFirstNameChange = (event) => {
-        setFirstName(event.target.value);
-    };
-    const handleLastNameChange = (event) => {
-        setLastName(event.target.value);
-    };
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
-    
-    const addUser = () => {
-        const newUser = [...user, firstName, lastName, email];
-        setNewUser(newUser);
-      };
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setErrors(Validation(values));
+    }
 
     return (
-        <>
-            <div className="flex justify-center items-center">
-                <div className=" bg-orange-50 border border-green-700 w-3/4 h-fit">
-                    <input type="name" aria-label="First name" onChange={handleFirstNameChange}/>
-                    <input type="name" aria-label="Last name" onChange={handleLastNameChange}/>
-                    <input type="email" aria-label="Email-adress" onChange={handleEmailChange} />
-                    <button onClick={addUser}>Create user</button>
-                </div>
+        <div className="">
+            <div className="flex justify-center mt-32">
+                <form className="flex flex-col justify-center items-center text-center border-2 border-green-800 w-1/3 h-fit py-10 rounded-lg gap-3" action="" onSubmit={handleSubmit}>
+                    <p className="text-2xl">Log In</p>
+                    <div className="flex flex-col border-2 border-green-800 rounded">
+                        <input className="p-2" type="email" placeholder=" Enter email" name="email" onChange={handleInput}/>
+                    </div>
+                    {errors.email && <span className=" text-orange-500">{errors.email}</span>}
+                    <div className="flex flex-col border-2 border-green-800 rounded">
+                        <input className="p-2" type="password" placeholder=" Enter password" name="password" onChange={handleInput}/>
+                    </div>
+                    {errors.password && <span className="text-orange-500">{errors.password}</span>}
+                    <button type="submit" className="border rounded-lg p-3 w-1/3">Log In</button>
+                    <button>Forgot your password?</button>
+                    <Link to="/CreateAccount"className="border rounded-lg p-3 w-1/3">Create Account</Link>
+                </form>
             </div>
-        </>
+        </div>
     );
 };
 
-export default LogInBox;
+export default LogIn;
