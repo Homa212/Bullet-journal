@@ -23,6 +23,9 @@ function Validation(values) {
     if(values.email === "") {
         error.email = "Field should not be empty"
     }
+    else if(!email_pattern.test(values.email)) {
+        error.email = "Email does not exist"
+    }
     else {
         error.email = ""
     }
