@@ -19,12 +19,7 @@ class WeeklyPlan(Base):
     email: Mapped[str] = mapped_column(nullable=False, unique=True) 
     hashed_password: Mapped[str]
 
-class User(Base):
-    __tablename__ = "users"
-    firstname: Mapped[str] = mapped_column(nullable=False)
-    lastname: Mapped[str] = mapped_column(nullable=False)
-    email: Mapped[str] = mapped_column(nullable=False, unique=True) 
-    hashed_password: Mapped[str]
+
 
 
 
