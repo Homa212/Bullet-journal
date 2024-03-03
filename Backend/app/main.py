@@ -10,12 +10,3 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-@app.get("/")
-async def hello():
-    return{"message": "Hello world"}
-
-# @app.post("/user", status_code=200)
-# def create_users(db: Session = Depends(get_db)):
-#     query = select(User)
-#     users = db.scalars(query).all()
-#     return users
