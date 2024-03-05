@@ -10,4 +10,14 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-@app.get 
+@app.post("/users", status_code=201)
+def add_company_type(users: schemas.User, db: Session = Depends(get_db)):
+    query = insert(User).values(**users.model_dump())
+    result = db.execute(query)
+    db.commit()
+    return db_company
+
+
+
+
+
