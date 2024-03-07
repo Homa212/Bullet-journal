@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict, EmailStr, ValidationErro
+from pydantic import BaseModel, Field, ConfigDict, EmailStr, ValidationError
 from typing import Optional, List
 from datetime import date, time
 
@@ -9,14 +9,14 @@ class UserSchema(BaseModel):
     hashed_password: str
     created_user: Optional [date]
 
-    weekly_plans: Optional[list["WeeklyPlanSchema"]] | None = []
+    # weekly_plans: Optional[list["WeeklyPlanSchema"]] | None = []
 
 class WeeklyPlanSchema(BaseModel):
     weekday: date
     daily_text: str = Field(max_length=100)
 
-    habits: Optional [list["HabitSchema"]] = None
-    todos: Optional [list["TodoSchema"]] = None
+    # habits: Optional [list["HabitSchema"]] = None
+    # todos: Optional [list["TodoSchema"]] = None
 
 class HabitSchema(BaseModel):
     habit_text: str = Field(max_length=100)
