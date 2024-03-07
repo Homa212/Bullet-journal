@@ -1,6 +1,6 @@
 
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import Integer, String, Text, Boolean, ForeignKey, Column, Table, DateTime, func, Date, Time
+from sqlalchemy import Integer, String, Text, Boolean, ForeignKey, Column, Table, DateTime, func
 from datetime import date, time, datetime
 
 class Base(DeclarativeBase):
@@ -11,8 +11,8 @@ class User(Base):
     firstname: Mapped[str] = mapped_column(String(100), nullable=False)
     lastname: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True) 
-    hashed_password: Mapped[str]
-    created_user = mapped_column(Date, nullable=False)
+    hashed_password: Mapped[str] = mapped_column(nullable=False)
+    created_user: Mapped[date] = mapped_column(date(timezone=True), nullable=False)
 
     weekly_plans: Mapped[list["WeeklyPlan"]] = relationship("WeeklyPlan", back_populates="users")
     sleep_trackers: Mapped[list["SleepTracker"]] = relationship("SleepTracker", back_populates="users")
@@ -24,7 +24,7 @@ class User(Base):
 
 class WeeklyPlan(Base):
     __tablename__ = "weekly_plans"
-    date = mapped_column(Date, nullable=False)
+    weekday: Mapped[date] = mapped_column(date(timezone=True), nullable=False)
     daily_text: Mapped[str]  = mapped_column(String(100), nullable=True)
 
     users: Mapped[User] = relationship("User", back_populates="weekly_plans")
@@ -36,24 +36,26 @@ class WeeklyPlan(Base):
 class Habit(Base):
     __tablename__= "habits"
     habit_text: Mapped[str] = mapped_column(String(100), nullable=True)
-    
+    habit_checkbox: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
+
     weekly_plans: Mapped[WeeklyPlan] = relationship("WeeklyPlan", back_populates="habits")
     weekly_plans_id: Mapped[int] = mapped_column(ForeignKey("weekly_plans.id", ondelete="SET NULL"), nullable=True)
 
 class Todo(Base):
     __tablename__ = "todos"
-    todo_text: Mapped[str] = mapped_column(String(100), nullable=True)   
-    
+    todo_text: Mapped[str] = mapped_column(String(100), nullable=True) 
+    todo_checkbox: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
+
     weekly_plans: Mapped[WeeklyPlan] = relationship("WeeklyPlan", back_populates="todos")
     weekly_plans_id: Mapped[int] = mapped_column(ForeignKey("weekly_plans.id", ondelete="SET NULL"), nullable=True)
 
 
 class SleepTracker(Base):
     __tablename__= "sleep_trackers"
-    date = mapped_column (Date, nullable=False)
+    date_of_sleep: Mapped[date] = mapped_column(date(timezone=True), nullable=False)
     sleep_quality: Mapped[int] = mapped_column(nullable=True)
-    sleeping_hours = mapped_column(Time, nullable=True)
-    notes: Mapped[str] = mapped_column(nullable=True)
+    sleeping_hours: Mapped[time] = mapped_column(time(timezone=True), nullable=True)
+    notes: Mapped[str] = mapped_column(String(300), nullable=True)
     
     users: Mapped[User] = relationship("User", back_populates="sleep_trackers")
     users_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
@@ -61,10 +63,10 @@ class SleepTracker(Base):
 
 class WorkoutTracker(Base):
     __tablename__="workout_trackers"
-    date = mapped_column(Date, nullable=False)
-    workout_description: Mapped[str] = mapped_column(String(100), nullable=True)
-    workout_duration = mapped_column(Time, nullable=False)
-    start_time = mapped_column(Time, nullable=False)
+    workout_date: Mapped[date] = mapped_column(date(timezone=True), nullable=False)
+    workout_description: Mapped[str] = mapped_column(String(200), nullable=True)
+    workout_duration: Mapped[time] = mapped_column(time(timezone=True), nullable=True)
+    start_time: Mapped[time] = mapped_column(time(timezone=True), nullable=True)
     
     users: Mapped[User] = relationship("User", back_populates="workout_trackers")
     users_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
@@ -72,7 +74,7 @@ class WorkoutTracker(Base):
 
 class JournalYourDay(Base):
     __tablename__="journal_your_days"
-    date = mapped_column(Date, nullable=False)
+    journaling_date: Mapped[date] = mapped_column(date(timezone=True), nullable=False)
     text: Mapped[str] = mapped_column(nullable=False)
 
     users: Mapped[User] = relationship("User", back_populates="journal_your_days")
@@ -81,9 +83,9 @@ class JournalYourDay(Base):
 
 class MoodTracker(Base):
     __tablename__="mood_trackers"
-    date = mapped_column(Date, nullable=False)
+    moodtracker_date: Mapped[date] = mapped_column(date(timezone=True), nullable=False)
     mood_scale: Mapped[int] = mapped_column(nullable=True)
-    mood_description: Mapped[str] = mapped_column(String(100), nullable=True)
+    mood_description: Mapped[str] = mapped_column(String(200), nullable=True)
 
     users: Mapped[User] = relationship("User", back_populates="mood_trackers")
     users_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
@@ -105,14 +107,3 @@ class DiagramBridge(Base):
     workout_trackers_id: Mapped[int] = mapped_column(ForeignKey("workout_trackers.id", ondelete="SET NULL"), nullable=True)
     mood_trackers_id: Mapped[int] = mapped_column(ForeignKey("mood_trackers.id", ondelete="SET NULL"), nullable=True)
 
-
-    
-
-
-
-
-
-
-
-
-    
