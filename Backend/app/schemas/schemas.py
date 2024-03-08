@@ -17,7 +17,6 @@ class WeeklyPlanSchema(BaseModel):
 
     # habits: Optional [list["HabitSchema"]] = None
     # todos: Optional [list["TodoSchema"]] = None
-
 class HabitSchema(BaseModel):
     habit_text: str = Field(max_length=100)
     habit_checkbox: Optional[bool] | None = False

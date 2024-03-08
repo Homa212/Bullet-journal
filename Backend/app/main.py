@@ -15,17 +15,15 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+
 @app.post("/users", status_code=201)
 def add_user(users: UserSchema, db: Session = Depends(get_db)):
     try:
-        db_users = User(**User.model_dump())
+        # db_users.hashed_password = generate_password_hash(db_users.hashed_password) ???
+        db_users = User(**users.model_dump())
         db.add(db_users)
         db.commit()
-        db.refresh(db_users)
     except IntegrityError as e:
         raise HTTPException(status_code=400, detail="Database error")
     return db_users
-
-
-
 
