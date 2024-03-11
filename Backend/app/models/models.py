@@ -24,7 +24,7 @@ class User(Base):
 class WeeklyPlan(Base):
     __tablename__ = "weekly_plans"
     weekday: Mapped[date] = mapped_column(nullable=False)
-    daily_text: Mapped[str]  = mapped_column(String(100), nullable=True)
+    daily_text: Mapped[str]  = mapped_column(String(1000), nullable=True)
 
     users: Mapped[User] = relationship("User", back_populates="weekly_plans")
     users_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
@@ -34,7 +34,7 @@ class WeeklyPlan(Base):
 
 class Habit(Base):
     __tablename__= "habits"
-    habit_text: Mapped[str] = mapped_column(String(100), nullable=True)
+    habit_text: Mapped[str] = mapped_column(String(500), nullable=True)
     habit_checkbox: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
 
     weekly_plans: Mapped[WeeklyPlan] = relationship("WeeklyPlan", back_populates="habits")
@@ -42,7 +42,7 @@ class Habit(Base):
 
 class Todo(Base):
     __tablename__ = "todos"
-    todo_text: Mapped[str] = mapped_column(String(100), nullable=True) 
+    todo_text: Mapped[str] = mapped_column(String(500), nullable=True) 
     todo_checkbox: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
 
     weekly_plans: Mapped[WeeklyPlan] = relationship("WeeklyPlan", back_populates="todos")
@@ -53,8 +53,11 @@ class SleepTracker(Base):
     __tablename__= "sleep_trackers"
     date_of_sleep: Mapped[date] = mapped_column(nullable=False)
     sleep_quality: Mapped[int] = mapped_column(nullable=True)
-    sleeping_hours: Mapped[time] = mapped_column(nullable=True)
-    notes: Mapped[str] = mapped_column(String(300), nullable=True)
+    start_time: Mapped[time] = mapped_column(nullable=True)
+    end_time: Mapped[time] = mapped_column(nullable=True)
+    sleeping_hours: Mapped[int] = mapped_column(nullable=True)
+    sleeping_min: Mapped[int] = mapped_column(nullable=True)
+    notes: Mapped[str] = mapped_column(String(1000), nullable=True)
     
     users: Mapped[User] = relationship("User", back_populates="sleep_trackers")
     users_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
@@ -63,9 +66,11 @@ class SleepTracker(Base):
 class WorkoutTracker(Base):
     __tablename__="workout_trackers"
     workout_date: Mapped[date] = mapped_column(nullable=False)
-    workout_description: Mapped[str] = mapped_column(String(200), nullable=True)
-    workout_duration: Mapped[time] = mapped_column(nullable=True)
+    workout_description: Mapped[str] = mapped_column(String(1000), nullable=True)
     start_time: Mapped[time] = mapped_column(nullable=True)
+    end_time: Mapped[time] = mapped_column(nullable=True)
+    workout_duration_hours: Mapped[int] = mapped_column(nullable=True)
+    workout_duration_min: Mapped[int] = mapped_column(nullable=True)
     
     users: Mapped[User] = relationship("User", back_populates="workout_trackers")
     users_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
@@ -73,7 +78,7 @@ class WorkoutTracker(Base):
 
 class JournalYourDay(Base):
     __tablename__="journal_your_days"
-    journaling_date: Mapped[date] = mapped_column( nullable=False)
+    journaling_date: Mapped[date] = mapped_column(nullable=False)
     text: Mapped[str] = mapped_column(nullable=False)
 
     users: Mapped[User] = relationship("User", back_populates="journal_your_days")
@@ -84,7 +89,7 @@ class MoodTracker(Base):
     __tablename__="mood_trackers"
     moodtracker_date: Mapped[date] = mapped_column(nullable=False)
     mood_scale: Mapped[int] = mapped_column(nullable=True)
-    mood_description: Mapped[str] = mapped_column(String(200), nullable=True)
+    mood_description: Mapped[str] = mapped_column(String(1000), nullable=True)
 
     users: Mapped[User] = relationship("User", back_populates="mood_trackers")
     users_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)

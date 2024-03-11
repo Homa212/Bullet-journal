@@ -9,36 +9,34 @@ class UserSchema(BaseModel):
     hashed_password: str
     created_user: Optional [date]
 
-    # weekly_plans: Optional[list["WeeklyPlanSchema"]] | None = []
-
 class WeeklyPlanSchema(BaseModel):
     weekday: date
-    daily_text: str = Field(max_length=100)
+    daily_text: str = Field(max_length=1000)
 
-    # habits: Optional [list["HabitSchema"]] = None
-    # todos: Optional [list["TodoSchema"]] = None
 class HabitSchema(BaseModel):
-    habit_text: str = Field(max_length=100)
+    habit_text: str = Field(max_length=500)
     habit_checkbox: Optional[bool] | None = False
 
-    # weekly_plans: WeeklyPlanSchema ?????????????????
-    
 class TodoSchema(BaseModel):
-    todo_text: str = Field(max_length=100)
+    todo_text: str = Field(max_length=500)
     todo_checkbox: Optional [bool] | None = False
-    # weekly_plans: WeeklyPlanSchema ?????????????
 
 class SleepTrackerSchema(BaseModel):
     date_of_sleep: date
     sleep_quality: Optional[int] = Field(gt=0, lt=6)
-    sleeping_hours: Optional[time]
-    notes: Optional[str] = Field(max_length=300)
+    start_time: Optional [time]
+    end_time: Optional [time] 
+    sleeping_hours: Optional [int]
+    sleeping_min: Optional [int] 
+    notes: Optional[str] = Field(max_length=1000)
 
 class WorkoutTrackerSchema(BaseModel):
     workout_date: date
-    workout_description: Optional[str] = Field(max_length=200)
-    workout_duration: Optional[time]
+    workout_description: Optional[str] = Field(max_length=1000)
     start_time: Optional[time]
+    end_time: Optional[time]
+    workout_duration_hours: Optional[int]
+    workout_duration_min: Optional[int]
 
 class JournalYourDaySchema(BaseModel):
     journaling_date: date
@@ -47,7 +45,7 @@ class JournalYourDaySchema(BaseModel):
 class MoodTrackerSchema(BaseModel):
     moodtracker_date: date
     mood_scale: Optional[int] = Field(gt=0, lt=6)
-    mood_description: Optional[str] = Field(max_length=200)
+    mood_description: Optional[str] = Field(max_length=1000)
 
 # class TrackerDiagramSchema(BaseModel):
 #     # ... (definition based on relationships)
