@@ -10,6 +10,7 @@ function Navbar() {
                 <div className="flex justify-between gap-3">
                     <button>Log in</button>
                     <button>Sign up</button>
+
                 </div>
             </div>
             
