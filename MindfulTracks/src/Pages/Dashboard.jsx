@@ -1,8 +1,9 @@
 import React from "react";
 
+
 function Dashboard() {
     return(
-        <div>Hello you</div>
+        <div>heeeej</div>
     );
 };
 

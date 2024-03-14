@@ -1,14 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: { fontfamily: {
-      display: ["Amatic SC", "sans-serif"]
-    },},
+    extend: {},
+    fontFamily: {
+      cormont:["Cormorant", "serif"],
+      amatic:["Amatic SC", "sans-serif"],
+      source: ["Source Serif 4", "serif"],
+      josefin:["Josefin Sans", "sans-serif"]
+    },
   },
   plugins: [],
-}
+};
 
