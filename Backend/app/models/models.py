@@ -10,8 +10,8 @@ class User(Base):
     firstname: Mapped[str] = mapped_column(String(100), nullable=False)
     lastname: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True) 
-    hashed_password: Mapped[str] = mapped_column(nullable=False)
-    created_user: Mapped[date] = mapped_column(nullable=False)
+    password: Mapped[str] = mapped_column(nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=True)
 
     weekly_plans: Mapped[list["WeeklyPlan"]] = relationship("WeeklyPlan", back_populates="users")
     sleep_trackers: Mapped[list["SleepTracker"]] = relationship("SleepTracker", back_populates="users")

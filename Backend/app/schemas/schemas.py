@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, ConfigDict, EmailStr, ValidationError, validator
+from pydantic import BaseModel, Field, ConfigDict, EmailStr, validator
 from typing import Optional, List, TypeVar, Type
 from datetime import date, time
 
@@ -19,7 +19,6 @@ class BaseModelConfig(BaseModel):
 class Token(BaseModelConfig):
     access_token: str
     token_type: str
-    model_config = ConfigDict(from_attributes=True)
 
 class TokenPayload(BaseModelConfig):
     sub: str = None
@@ -30,18 +29,17 @@ class UserSchema(BaseModelConfig):
     lastname: str = Field(max_length=100)
     email: EmailStr
     password: str
-    created_user: Optional [date]
 
 class UserOutSchema(BaseModel):
     id: int
+    firstname: str
+    lastname: str
     email: EmailStr
-    last_name: str
-    first_name: str
 
 class UserRegisterSchema(BaseModel):
+    firstname: str
+    lastname: str
     email: EmailStr
-    last_name: str
-    first_name: str
     password: str
 
 class WeeklyPlanSchema(BaseModelConfig):

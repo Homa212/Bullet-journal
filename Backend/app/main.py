@@ -2,11 +2,20 @@ from fastapi import FastAPI, HTTPException, Depends, status
 from app.db_setup import init_db, get_db
 from contextlib import asynccontextmanager
 from fastapi import Request
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload, selectinload, load_only
 from sqlalchemy import select, update, delete, insert
 from app.models.models import User, WeeklyPlan, Habit, Todo, SleepTracker, WorkoutTracker, JournalYourDay, MoodTracker
 from app.schemas.schemas import UserSchema, WeeklyPlanSchema, HabitSchema, TodoSchema, SleepTrackerSchema, WorkoutTrackerSchema, JournalYourDaySchema, MoodTrackerSchema 
 from sqlalchemy.exc import IntegrityError, NoResultFound
+from auth_endpoints import router as auth_router
+from app.security import get_current_user
+from typing import Annotated
+
+origin = [
+    "http://localhost:3000",
+    "http://localhost:5173"
+]
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,17 +24,26 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.include_router(auth_router)
 
-@app.post("/users", status_code=201)
-def add_user(users: UserSchema, db: Session = Depends(get_db)):
-    try:
-        # db_users.hashed_password = generate_password_hash(db_users.hashed_password) ???
-        db_users = User(**users.model_dump())
-        db.add(db_users)
-        db.commit()
-    except IntegrityError as e:
-        raise HTTPException(status_code=400, detail="Database error")
-    return db_users
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origin,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+# @app.post("/users", status_code=201)
+# def add_user(users: UserSchema, db: Session = Depends(get_db)):
+#     try:
+#         # db_users.password = generate_password_hash(db_users.password) ???
+#         db_users = User(**users.model_dump())
+#         db.add(db_users)
+#         db.commit()
+#     except IntegrityError as e:
+#         raise HTTPException(status_code=400, detail="Database error")
+#     return db_users
 
 @app.post("/weekly_plans", status_code=201)
 def add_weekly_plan(weekly_plans: WeeklyPlanSchema, db: Session = Depends(get_db)):
