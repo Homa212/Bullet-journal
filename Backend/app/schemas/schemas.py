@@ -1,27 +1,62 @@
-from pydantic import BaseModel, Field, ConfigDict, EmailStr, ValidationError
-from typing import Optional, List
+from pydantic import BaseModel, Field, ConfigDict, EmailStr, ValidationError, validator
+from typing import Optional, List, TypeVar, Type
 from datetime import date, time
 
-class UserSchema(BaseModel):
+T = TypeVar("T", bound=BaseModel)  # Type variable for base model
+
+class BaseModelConfig(BaseModel):
+    """Base class for all schemas with automatic configuration."""
+    @validator("*", pre=True)
+    def set_config(cls, value):
+        # Set the config for the current class and its subclasses
+        cls.Config = ConfigDict(orm_mode=True, from_attributes=True)
+        return value
+
+    class Config:
+        # Inherit attributes from parent classes (optional)
+        arbitrary_types_allowed = True
+
+class Token(BaseModelConfig):
+    access_token: str
+    token_type: str
+    model_config = ConfigDict(from_attributes=True)
+
+class TokenPayload(BaseModelConfig):
+    sub: str = None
+    exp: int = None
+
+class UserSchema(BaseModelConfig):
     firstname: str = Field(max_length=100)
     lastname: str = Field(max_length=100)
     email: EmailStr
-    hashed_password: str
+    password: str
     created_user: Optional [date]
 
-class WeeklyPlanSchema(BaseModel):
+class UserOutSchema(BaseModel):
+    id: int
+    email: EmailStr
+    last_name: str
+    first_name: str
+
+class UserRegisterSchema(BaseModel):
+    email: EmailStr
+    last_name: str
+    first_name: str
+    password: str
+
+class WeeklyPlanSchema(BaseModelConfig):
     weekday: date
     daily_text: str = Field(max_length=1000)
 
-class HabitSchema(BaseModel):
+class HabitSchema(BaseModelConfig):
     habit_text: str = Field(max_length=500)
     habit_checkbox: Optional[bool] | None = False
 
-class TodoSchema(BaseModel):
+class TodoSchema(BaseModelConfig):
     todo_text: str = Field(max_length=500)
     todo_checkbox: Optional [bool] | None = False
 
-class SleepTrackerSchema(BaseModel):
+class SleepTrackerSchema(BaseModelConfig):
     date_of_sleep: date
     sleep_quality: Optional[int] = Field(gt=0, lt=6)
     start_time: Optional [time]
@@ -30,7 +65,7 @@ class SleepTrackerSchema(BaseModel):
     sleeping_min: Optional [int] 
     notes: Optional[str] = Field(max_length=1000)
 
-class WorkoutTrackerSchema(BaseModel):
+class WorkoutTrackerSchema(BaseModelConfig):
     workout_date: date
     workout_description: Optional[str] = Field(max_length=1000)
     start_time: Optional[time]
@@ -38,19 +73,19 @@ class WorkoutTrackerSchema(BaseModel):
     workout_duration_hours: Optional[int]
     workout_duration_min: Optional[int]
 
-class JournalYourDaySchema(BaseModel):
+class JournalYourDaySchema(BaseModelConfig):
     journaling_date: date
     text: str
 
-class MoodTrackerSchema(BaseModel):
+class MoodTrackerSchema(BaseModelConfig):
     moodtracker_date: date
     mood_scale: Optional[int] = Field(gt=0, lt=6)
     mood_description: Optional[str] = Field(max_length=1000)
 
-# class TrackerDiagramSchema(BaseModel):
+# class TrackerDiagramSchema(BaseModelConfig):
 #     # ... (definition based on relationships)
 
-# class DiagramBridgeSchema(BaseModel):
+# class DiagramBridgeSchema(BaseModelConfig):
 #     # ... (definition based on relationships)
 
 

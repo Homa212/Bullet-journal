@@ -1,7 +1,7 @@
 import Layout from "./Pages/Layout";
 // import LandingPage from "./Pages/LandingPage";
-import CreateAccount from "./components/CreateAccount";
-import LogIn from "./components/LogIn";
+// import CreateAccount from "./components/CreateAccount";
+// import LogIn from "./components/LogIn";
 
 import Dashboard from "./Pages/Dashboard";
 import MyPageLayout from "./Pages/MyPageLayout";
@@ -20,10 +20,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout/>}>
+        {/* <Route path="/" element={<Layout/>}>
           <Route path='/LogIn' element={<LogIn/>}></Route>
           <Route path='/CreateAccount' element={<CreateAccount/>}></Route>
-        </Route>
+        </Route> */}
         <Route path="/" element={<MyPageLayout/>}>
           <Route path='/Dashboard' element={<Dashboard/>}></Route>
           <Route path='/MyProfilePage' element={<MyProfilePage/>}></Route>
