@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 
 function Navbar() {
     return(
@@ -8,8 +10,8 @@ function Navbar() {
                 <button>About</button>
                 <button>Contact us</button>
                 <div className="flex justify-between gap-3">
-                    <button>Log in</button>
-                    <button>Sign up</button>
+                    <Link to="LoginPage">Log in</Link>
+                    <Link to="RegisterPage">Sign up</Link>
 
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import Layout from "./Pages/Layout";
 // import LandingPage from "./Pages/LandingPage";
-// import CreateAccount from "./components/CreateAccount";
-// import LogIn from "./components/LogIn";
+import RegisterPage from "./Pages/RegisterPage";
+import LoginPage from "./Pages/LoginPage";
 
 import Dashboard from "./Pages/Dashboard";
 import MyPageLayout from "./Pages/MyPageLayout";
@@ -12,7 +12,6 @@ import SleepPage from "./Pages/SleepPage";
 import WorkoutPage from "./Pages/WorkoutPage";
 import JournalPage from "./Pages/JournalPage";
 
-
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 function App() {
@@ -20,10 +19,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<Layout/>}>
-          <Route path='/LogIn' element={<LogIn/>}></Route>
-          <Route path='/CreateAccount' element={<CreateAccount/>}></Route>
-        </Route> */}
+        <Route path="/" element={<Layout/>}>
+          <Route path='/LoginPage' element={<LoginPage/>}></Route>
+          <Route path='/RegisterPage' element={<RegisterPage/>}></Route>
+        </Route>
         <Route path="/" element={<MyPageLayout/>}>
           <Route path='/Dashboard' element={<Dashboard/>}></Route>
           <Route path='/MyProfilePage' element={<MyProfilePage/>}></Route>
