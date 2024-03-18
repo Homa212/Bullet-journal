@@ -4,9 +4,11 @@ import { Outlet } from "react-router-dom";
 
 function MyPageLayout() {
     return (
-      <div>
+      <div className="relative flex h-screen">
         <MypageNavbar/>
-        <Outlet/>
+        <div className="">
+          <Outlet/>
+        </div>
       </div>
   
     );

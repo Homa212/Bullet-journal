@@ -28,8 +28,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def hash_password(password: str):
     return pwd_context.hash(password)
 
-def verify_password(plain_password: str, password: str):
-    return pwd_context.verify(plain_password, password)
+def verify_password(plain_password: str, hashed_password: str):
+    return pwd_context.verify(plain_password, hashed_password)
 
 def create_access_token(data: dict, expires_delta: timedelta):
     to_encode = data.copy()
@@ -60,6 +60,7 @@ def verify_token_access(token: str, credentials_exception: HTTPException):
             headers={"WWW-Authenticate": "Bearer"},
         )
     except JWTError as e:
+        print(e)
         raise credentials_exception
     return token_data
 

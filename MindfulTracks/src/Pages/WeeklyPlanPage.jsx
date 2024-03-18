@@ -1,8 +1,18 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
+// import ToDo from "../components/ToDo";
+import WeeklyPlanner from "../components/WeeklyPlanner";
 
 function WeeklyPlanPage() {
     return(
-        <div>Today was...</div>
+        <div className="relative">
+        {/* <ToDo/> */}
+        <WeeklyPlanner/>
+        <div className="">
+          <Outlet/>
+        </div>
+      </div>
+
     );
 };
 
