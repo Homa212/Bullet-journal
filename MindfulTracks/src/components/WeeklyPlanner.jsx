@@ -32,24 +32,25 @@ const WeeklyPlanner = () => {
 
   return (
     <div>
-      <div className="flex flex-col border px-10 py-10 text-2xl font-josefin">
-        <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col px-10 py-10 text-2xl font-josefin">
+        <div className="flex justify-between items-center mb-4 font-medium">
           <button onClick={() => changeWeek(-1)}>Previous Week</button>
           <h2>Week {getISOWeek(weekStartDate)}</h2>
           <button onClick={() => changeWeek(1)}>Next Week</button>
         </div>
-        <div className="grid grid-cols-4 h-fit">
+        <div className="grid grid-cols-4 gap-3 h-fit">
           {days.map((day, index) => (
-            <div key={index} className="p-4 text-center flex flex-col ">
-              <h3 className="font-bold">{day.toLocaleDateString('en-US', { weekday: 'long' })}</h3>
-              <p className="text-lg mb-2">{day.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</p>
+            <div key={index} className="p-4 mt-4 text-center rounded-lg bg-gradient-to-b from--900 via-white to-white flex flex-col border shadow-md">
+              <div className="rounded-lg p-2">
+                <h3 className="font-bold">{day.toLocaleDateString('en-US', { weekday: 'long' })}</h3>
+                <p className="text-lg mb-2">{day.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</p>
+              </div>
               <hr />
-              {/* <input className="border my-4 h-52" type="text" maxLength={100} /> */}
               <textarea
-                className="handwriting-lines my-4"
+                className="p-1 border-none resize-none rounded-lg outline-none my-4"
                 rows={4}
-                maxLength={100}
-                placeholder="Start typing..."
+                maxLength={150}
+                placeholder="What's happening today?"
               ></textarea>
             </div>
           ))}
