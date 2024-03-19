@@ -7,10 +7,8 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      cormont:["Cormorant", "serif"],
       amatic:["Amatic SC", "sans-serif"],
-      source: ["Source Serif 4", "serif"],
-      josefin:["Josefin Sans", "sans-serif"]
+      josefin:["Josefin Slab", "serif"]
     },
   },
   plugins: [],

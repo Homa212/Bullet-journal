@@ -1,48 +1,3 @@
-// import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-// import Validation from "./LogInValidation";
-
-// function LogIn() {
-//     const [values, setValues] = useState({
-//         email: "",
-//         password: ""
-//     });
-
-//     const [errors, setErrors] =useState({})
-//     const handleInput = (event) => {
-//         setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
-//     }
-
-//     const handleSubmit = (event) => {
-//         event.preventDefault();
-//         setErrors(Validation(values));
-//     }
-
-//     return (
-//         <div className="">
-//             <div className="flex justify-center mt-32">
-//                 <form className="flex flex-col justify-center items-center text-center border-2 border-green-800 w-1/3 h-fit py-10 rounded-lg gap-3" action="" onSubmit={handleSubmit}>
-//                     <p className="text-2xl">Log In</p>
-//                     <div className="flex flex-col border-2 border-green-800 rounded">
-//                         <input className="p-2" type="email" placeholder=" Enter email" name="email" onChange={handleInput}/>
-//                     </div>
-//                     {errors.email && <span className=" text-orange-500">{errors.email}</span>}
-//                     <div className="flex flex-col border-2 border-green-800 rounded">
-//                         <input className="p-2" type="password" placeholder=" Enter password" name="password" onChange={handleInput}/>
-//                     </div>
-//                     {errors.password && <span className="text-orange-500">{errors.password}</span>}
-//                     <button type="submit" className="border rounded-lg p-3 w-1/3">Log In</button>
-//                     <button>Forgot your password?</button>
-//                     <Link to="/CreateAccount"className="border rounded-lg p-3 w-1/3">Create Account</Link>
-//                 </form>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default LogIn;
-
-
 import { useState } from "react";
 // import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -106,7 +61,7 @@ export default function LogIn() {
           const data = await response.json();
           setToken(data.access_token); // Save the token in the global state
           console.log(token);
-          navigate("/dashboard");
+          navigate("../WeeklyPlanPage");
           // Handle successful login, e.g., storing the access token
           console.log(data);
         } else if (response.status === 400 || response.status === 401) {
@@ -127,7 +82,7 @@ export default function LogIn() {
   return (
     <div className="flex flex-col justify-center">
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+        <div className="px-4 py-8 bg-white shadow sm:px-10 border-2 border-emerald-800 font-josefin">
           <form onSubmit={submitLogin} className="space-y-6" noValidate>
             <div>
               <label
@@ -142,7 +97,7 @@ export default function LogIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={validateEmail}
-                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full px-3 py-2  border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
               {emailError && (
                 <p className="mt-2 text-sm text-red-600">{emailError}</p>
@@ -152,7 +107,7 @@ export default function LogIn() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium"
               >
                 Password
               </label>
@@ -162,7 +117,7 @@ export default function LogIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={validatePassword}
-                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
               />
               {passwordError && (
                 <p className="mt-2 text-sm text-red-600">{passwordError}</p>
@@ -177,7 +132,7 @@ export default function LogIn() {
             <div>
               <button
                 type="submit"
-                className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="flex justify-center w-full px-4 py-2 text-sm font-medium text-black border font-josefin border-emerald-800 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Login
               </button>

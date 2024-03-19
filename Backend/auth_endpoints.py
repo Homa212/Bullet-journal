@@ -40,16 +40,16 @@ def register_user(users: UserRegisterSchema, db: Session = Depends(get_db)) -> U
 
 @router.post("/user/token")
 def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session = Depends(get_db)) -> Token:
-    user = db.scalars(select(User).where(User.email == form_data.username)).first()
+    users = db.scalars(select(User).where(User.email == form_data.username)).first()
     
-    if not user:
+    if not users:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="User does not exist",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    if not verify_password(form_data.password, user.password):
+    if not verify_password(form_data.password, users.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Passwords do not match",
@@ -57,7 +57,7 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Sessio
         )
     
     access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
-    access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=access_token_expires)
+    access_token = create_access_token(data={"sub": str(users.id)}, expires_delta=access_token_expires)
     
     return {"access_token": access_token, "token_type": "bearer"}
 

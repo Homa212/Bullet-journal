@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict, EmailStr, validator
 from typing import Optional, List, TypeVar, Type
-from datetime import date, time
+from datetime import date, time, datetime
 
 T = TypeVar("T", bound=BaseModel)  # Type variable for base model
 
@@ -37,8 +37,8 @@ class UserOutSchema(BaseModel):
     email: EmailStr
 
 class UserRegisterSchema(BaseModel):
-    firstname: str
-    lastname: str
+    firstname: str = Field(max_length=100)
+    lastname: str = Field(max_length=100)
     email: EmailStr
     password: str
 

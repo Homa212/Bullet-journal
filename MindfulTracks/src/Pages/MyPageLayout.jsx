@@ -4,9 +4,11 @@ import { Outlet } from "react-router-dom";
 
 function MyPageLayout() {
     return (
-      <div>
+      <div className="flex fixed overflow-y-auto h-screen">
         <MypageNavbar/>
-        <Outlet/>
+        <div className="overflow-y-auto">
+          <Outlet/>
+        </div>
       </div>
   
     );
