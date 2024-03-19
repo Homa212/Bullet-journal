@@ -1,6 +1,6 @@
 import { useState } from "react";
 // import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../stores/store";
 
 export default function LogIn() {
@@ -82,12 +82,12 @@ export default function LogIn() {
   return (
     <div className="flex flex-col justify-center">
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="px-4 py-8 bg-white shadow sm:px-10 border-2 border-emerald-800 font-josefin">
+        <div className="px-4 py-6 bg-white shadow-xl sm:px-10 border-2 rounded-md border-emerald-800 font-josefin font-medium">
           <form onSubmit={submitLogin} className="space-y-6" noValidate>
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-semibold text-gray-700"
               >
                 Email
               </label>
@@ -97,10 +97,10 @@ export default function LogIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={validateEmail}
-                className="block w-full px-3 py-2  border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full px-3 py-2 placeholder-white border bg-transparent border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
               />
               {emailError && (
-                <p className="mt-2 text-sm text-red-600">{emailError}</p>
+                <p className="mt-2 text-sm text-black font-semibold">{emailError}</p>
               )}
             </div>
 
@@ -117,25 +117,35 @@ export default function LogIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={validatePassword}
-                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
+                className="block w-full px-3 py-2 placeholder-white border bg-transparent border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
               />
               {passwordError && (
-                <p className="mt-2 text-sm text-red-600">{passwordError}</p>
+                <p className="mt-2 text-sm text-black font-semibold">{passwordError}</p>
               )}
             </div>
             <div className="my-2">
               {serverError && (
-                <p className="mt-2 text-sm text-red-600">{serverError}</p>
+                <p className="mt-2 text-sm text-black font-semibold">{serverError}</p>
               )}{" "}
               {/* Display server-side errors */}
             </div>
             <div>
               <button
                 type="submit"
-                className="flex justify-center w-full px-4 py-2 text-sm font-medium text-black border font-josefin border-emerald-800 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Login
+                className="flex justify-center w-full px-4 py-2 text-sm font-bold text-white border font-josefin bg-green-800 border-emerald-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-800 transition-transform  hover:scale-110 hover:bg-green-800  "
+              >Login
               </button>
+                <div class="text-center w-full items-center text-sm grid grid-cols-3 mt-5 ">
+                  <hr class="border-t-1  border-gray-400" />
+                  <span>or</span>
+                  <hr class="border-t-1 border-gray-400 " />
+                </div>
+              <Link 
+                to="/RegisterPage"
+                type="submit"
+                className=" mt-3 flex justify-center w-full px-4 py-2 text-sm font-bold text-black border font-josefin border-emerald-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-800 transition-transform  hover:scale-110"
+              >Sign up
+              </Link>
             </div>
           </form>
         </div>

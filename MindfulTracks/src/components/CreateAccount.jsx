@@ -97,7 +97,7 @@ let navigate = useNavigate();
               email,
               first_name: firstName,
               last_name: lastName,
-              password: password,
+              hashed_password: password,
             }),
           }
         );
@@ -105,7 +105,7 @@ let navigate = useNavigate();
 
         if (response.status === 201) {
           console.log("Success");
-          navigate("../Pages/LoginPage");
+          navigate("../LoginPage");
         } else {
           console.log("Something went wrong");
           //   Log the response json to the console
@@ -124,12 +124,12 @@ let navigate = useNavigate();
     <>
       <div className="flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8">
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+          <div className="px-4 py-6 bg-white shadow-xl sm:px-10 border-2 rounded-md border-emerald-800 font-josefin font-medium ">
             <form className="space-y-6" onSubmit={submitRegister}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-semibold text-gray-700"
                 >
                   Email address
                 </label>
@@ -140,13 +140,13 @@ let navigate = useNavigate();
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-white border bg-transparent border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onBlur={validateEmail}
                   />
                   {emailError.map((error, index) => (
-                    <p key={index} className="mt-2 text-sm text-red-600">
+                    <p key={index} className="mt-2 text-sm text-black">
                       {error}
                     </p>
                   ))}
@@ -156,7 +156,7 @@ let navigate = useNavigate();
               <div>
                 <label
                   htmlFor="first_name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-semibold text-gray-700"
                 >
                   First Name
                 </label>
@@ -167,13 +167,13 @@ let navigate = useNavigate();
                     type="text"
                     autoComplete="given-name"
                     required
-                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-white border bg-transparent border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     onBlur={validateFirstName}
                   />
                   {firstNameError.map((error, index) => (
-                    <p key={index} className="mt-2 text-sm text-red-600">
+                    <p key={index} className="mt-2 text-sm text-black">
                       {error}
                     </p>
                   ))}
@@ -183,7 +183,7 @@ let navigate = useNavigate();
               <div>
                 <label
                   htmlFor="last_name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-semibold text-gray-700"
                 >
                   Last Name
                 </label>
@@ -194,13 +194,13 @@ let navigate = useNavigate();
                     type="text"
                     autoComplete="family-name"
                     required
-                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-white border bg-transparent border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     onBlur={validateLastName}
                   />
                   {lastNameError.map((error, index) => (
-                    <p key={index} className="mt-2 text-sm text-red-600">
+                    <p key={index} className="mt-2 text-sm text-black">
                       {error}
                     </p>
                   ))}
@@ -210,7 +210,7 @@ let navigate = useNavigate();
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-semibold text-gray-700"
                 >
                   Password
                 </label>
@@ -221,13 +221,13 @@ let navigate = useNavigate();
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="block w-full px-3 py-2 placeholder-white border bg-transparent border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     onBlur={validatePassword}
                   />
                   {passwordError.map((error, index) => (
-                    <p key={index} className="mt-2 text-sm text-red-600">
+                    <p key={index} className="mt-2 text-sm text-black">
                       {error}
                     </p>
                   ))}
@@ -239,7 +239,7 @@ let navigate = useNavigate();
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  className="w-4 h-4 border-gray-300 rounded"
                   checked={terms}
                   onChange={(e) => setTerms(e.target.checked)}
                 />
@@ -251,16 +251,21 @@ let navigate = useNavigate();
                 </label>
               </div>
               {termsError && (
-                <p className="mt-2 text-sm text-red-600">{termsError}</p>
+                <p className="mt-2 text-sm text-black">{termsError}</p>
               )}
 
               <div>
                 <button
                   type="submit"
-                  className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Register
+                  className="flex justify-center w-full px-4 py-2 text-sm font-bold text-white border font-josefin bg-green-800 border-emerald-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-800 transition-transform  hover:scale-110 hover:bg-green-800 "
+                >Sign up
                 </button>
+                  <div class="text-center w-full items-center text-sm grid grid-cols-3 mt-5 ">
+                    <hr class="border-t-1  border-gray-400" />
+                    <span>or</span>
+                    <hr class="border-t-1 border-gray-400 " />
+                  </div>
+                
               </div>
             </form>
           </div>

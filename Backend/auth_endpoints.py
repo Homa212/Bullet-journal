@@ -45,7 +45,7 @@ def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Sessio
     if not users:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User does not exist",
+            detail="Invalid user registration",
             headers={"WWW-Authenticate": "Bearer"},
         )
     

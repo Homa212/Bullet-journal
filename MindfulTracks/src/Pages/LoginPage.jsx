@@ -8,9 +8,8 @@ function LoginPage() {
     <div className="min-w-xl">
 
       <div className="mt-10">
-      <Link to="/dashboard" className="py-4 underline">Dashboard</Link>
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-3xl font-extrabold text-center text-gray-900 font-amatic">
+          <h2 className="mt-6 text-5xl font-extrabold text-center text-black font-amatic">
             Log in
           </h2>
         </div>
