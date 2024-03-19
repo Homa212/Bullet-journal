@@ -82,7 +82,7 @@ export default function LogIn() {
   return (
     <div className="flex flex-col justify-center">
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+        <div className="px-4 py-8 bg-white shadow sm:px-10 border-2 border-emerald-800 font-josefin">
           <form onSubmit={submitLogin} className="space-y-6" noValidate>
             <div>
               <label
@@ -97,7 +97,7 @@ export default function LogIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onBlur={validateEmail}
-                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full px-3 py-2  border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
               {emailError && (
                 <p className="mt-2 text-sm text-red-600">{emailError}</p>
@@ -107,7 +107,7 @@ export default function LogIn() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium"
               >
                 Password
               </label>
@@ -117,7 +117,7 @@ export default function LogIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={validatePassword}
-                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-emerald-600 focus:border-emerald-800 sm:text-sm"
               />
               {passwordError && (
                 <p className="mt-2 text-sm text-red-600">{passwordError}</p>
@@ -132,7 +132,7 @@ export default function LogIn() {
             <div>
               <button
                 type="submit"
-                className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="flex justify-center w-full px-4 py-2 text-sm font-medium text-black border font-josefin border-emerald-800 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Login
               </button>

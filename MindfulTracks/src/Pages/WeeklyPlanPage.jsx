@@ -1,13 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-// import ToDo from "../components/ToDo";
+import ToDo from "../components/ToDo";
 import WeeklyPlanner from "../components/WeeklyPlanner";
 
 function WeeklyPlanPage() {
     return(
-        <div className="relative">
-        {/* <ToDo/> */}
+        <div className="overflow-y-auto">
         <WeeklyPlanner/>
+        <ToDo/>
         <div className="">
           <Outlet/>
         </div>

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 export default function ToDo() {
   return (
-    <div className="App bg-gray-200 h-screen py-12">
+    <div className="py-10">
       <div className="container max-w-screen-md m-auto p-8 bg-white rounded-xl">
         <h1 className="text-6xl font-black tracking-tighter lowercase">
           To-Do List
