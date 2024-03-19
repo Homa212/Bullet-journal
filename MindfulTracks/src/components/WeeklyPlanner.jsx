@@ -32,7 +32,7 @@ const WeeklyPlanner = () => {
 
   return (
     <div>
-      <div className="flex flex-grow flex-col px-10 py-10 text-2xl font-josefin">
+      <div className="flex flex-col sm:px-5 md:px-10 py-10 xl:text-2xl lg:text-xl md:text-2xl sm:text-lg font-josefin">
         <div className="flex justify-between items-center mb-4 font-semibold">
           
           <button onClick={() => changeWeek(-1)} className="relative flex gap-3 items-center cursor-pointer transition-all duration-500 before:content-['']
@@ -54,7 +54,7 @@ const WeeklyPlanner = () => {
           </svg></button>
         </div>
 
-        <div className="grid grid-cols-4 gap-3 h-fit">
+        <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full gap-3 h-fit">
           {days.map((day, index) => (
             <div key={index} className="p-4 mt-4 text-center flex flex-col border-2 border-emerald-800 shadow-lg">
               <div className="rounded-lg p-2">
