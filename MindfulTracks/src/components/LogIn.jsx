@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { Link } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../stores/store";
 
@@ -130,6 +129,14 @@ export default function LogIn() {
               {/* Display server-side errors */}
             </div>
             <div>
+            <div>
+              <Link
+              to="/PasswordResetPage"
+              type="submit"
+              className=" -mt-4 mb-4 font-semibold hover:underline">
+              Forgot your password?
+              </Link>
+            </div>  
               <button
                 type="submit"
                 className="flex justify-center w-full px-4 py-2 text-sm font-bold text-white border font-josefin bg-green-800 border-emerald-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-800 transition-transform  hover:scale-110 hover:bg-green-800  "

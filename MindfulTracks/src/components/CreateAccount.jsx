@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function EmailCreateAccount() {
+export default function CreateAccount() {
 let navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -265,7 +265,12 @@ let navigate = useNavigate();
                     <span>or</span>
                     <hr class="border-t-1 border-gray-400 " />
                   </div>
-                
+                <Link 
+                  to="/LoginPage"
+                  type="submit"
+                  className=" mt-3 flex justify-center w-full px-4 py-2 text-sm font-bold text-black border font-josefin border-emerald-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-800 transition-transform  hover:scale-110"
+                >Log in
+                </Link>
               </div>
             </form>
           </div>
