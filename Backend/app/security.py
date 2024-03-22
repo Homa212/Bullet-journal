@@ -20,6 +20,9 @@ ALGORITHM = os.getenv("ALGORITHM")  # e.g HS256
 SECRET_KEY = os.getenv("SECRET_KEY")  # e.g asdsadsadsakjdsiaojdkasjdksaj
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv(
     "ACCESS_TOKEN_EXPIRE_MINUTES")  # e.g 100
+EMAIL_RESET_TOKEN_EXPIRE_HOURS = os.getenv("EMAIL_RESET_TOKEN_EXPIRE_HOURS")
+POSTMARK_TOKEN = os.getenv("POSTMARK_TOKEN")
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user/token")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

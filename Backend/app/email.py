@@ -16,17 +16,10 @@ import datetime
 from jose import jwt, JWTError
 import requests
 import json
+from app.security import ALGORITHM, EMAIL_RESET_TOKEN_EXPIRE_HOURS, SECRET_KEY , ACCESS_TOKEN_EXPIRE_MINUTES, POSTMARK_TOKEN
 
 
 load_dotenv(override=True)
-
-# TODO CREATE SETTINGSCLASS USING FASTAPI SOLUTION
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
-EMAIL_RESET_TOKEN_EXPIRE_HOURS = os.getenv("EMAIL_RESET_TOKEN_EXPIRE_HOURS")
-POSTMARK_TOKEN = os.getenv("POSTMARK_TOKEN")
-
 
 def generate_password_reset_token(email: str) -> str:
     delta = timedelta(hours=int(EMAIL_RESET_TOKEN_EXPIRE_HOURS))
