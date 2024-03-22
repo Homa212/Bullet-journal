@@ -150,7 +150,6 @@ const WeeklyPlanner = () => {
               value={inputs[day.toISOString().split('T')[0]] || ''}
               onChange={(e) => handleInputChange(day.toISOString().split('T')[0], e.target.value)}
             ></textarea>
-            <p>HEEEEEEEEEEEEEEEEEEEEEEEEJJJJ</p>
           </div>
         ))}
       </div>
