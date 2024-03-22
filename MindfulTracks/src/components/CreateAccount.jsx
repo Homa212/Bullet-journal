@@ -94,10 +94,10 @@ let navigate = useNavigate();
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              email,
-              first_name: firstName,
-              last_name: lastName,
-              hashed_password: password,
+              email: email,
+              firstname: firstName,
+              lastname: lastName,
+              password: password,
             }),
           }
         );
@@ -105,7 +105,7 @@ let navigate = useNavigate();
 
         if (response.status === 201) {
           console.log("Success");
-          navigate("../LoginPage");
+          navigate("/LoginPage");
         } else {
           console.log("Something went wrong");
           //   Log the response json to the console
