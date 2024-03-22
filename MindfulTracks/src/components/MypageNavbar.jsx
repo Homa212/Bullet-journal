@@ -12,7 +12,7 @@ function MypageNavbar() {
     return(
         
         <div className="font-amatic">
-            <div className="text-emerald-800 sm:px-4 flex sm:flex-col sm:justify-center w-screen sm:w-fit h-fit sm:h-screen bg-amber-50 xl:text-4xl sm:text-3xl">
+            <div className="text-emerald-800 sm:px-4 flex sm:flex-col sm:justify-start sm:pt-20 w-screen sm:w-fit h-fit sm:h-screen bg-amber-50 xl:text-4xl sm:text-3xl">
                 {/* laptop menu */}
                 <div className="hidden sm:flex sm:flex-col xl:w-60 sm:w-48 xl:pl-0 sm:pl-2 sm:items-start gap-10">
                     <button className="xl:text-5xl sm:text-4xl font-bold">Mindful Trackers</button>
