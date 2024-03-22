@@ -8,7 +8,7 @@ function WeeklyPlanPage() {
         <div className="overflow-y-auto">
         <WeeklyPlanner/>
         <ToDo/>
-        <div className="">
+        <div>
           <Outlet/>
         </div>
       </div>

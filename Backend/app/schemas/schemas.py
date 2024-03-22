@@ -24,6 +24,10 @@ class TokenPayload(BaseModelConfig):
     sub: str = None
     exp: int = None
 
+class NewPasswordSchema(BaseModel):
+    token: str
+    new_password: str
+    
 class UserSchema(BaseModelConfig):
     firstname: str = Field(max_length=100)
     lastname: str = Field(max_length=100)

@@ -2,6 +2,8 @@ import Layout from "./Pages/Layout";
 // import LandingPage from "./Pages/LandingPage";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
+import PasswordResetPage from "./Pages/PasswordResetPage";
+import ResetConfirmationPage from "./Pages/ResetConfirmationPage";
 
 import Dashboard from "./Pages/Dashboard";
 import MyPageLayout from "./Pages/MyPageLayout";
@@ -14,6 +16,7 @@ import JournalPage from "./Pages/JournalPage";
 
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
+
 function App() {
 
   return (
@@ -22,6 +25,8 @@ function App() {
         <Route path="/" element={<Layout/>}>
           <Route path='/LoginPage' element={<LoginPage/>}></Route>
           <Route path='/RegisterPage' element={<RegisterPage/>}></Route>
+          <Route path='/PasswordResetPage' element={<PasswordResetPage/>}></Route>
+          <Route path='/ResetConfirmationPage' element={<ResetConfirmationPage/>}></Route>
         </Route>
         <Route path="/" element={<MyPageLayout/>}>
           <Route path='/Dashboard' element={<Dashboard/>}></Route>
