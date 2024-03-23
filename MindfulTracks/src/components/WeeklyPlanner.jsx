@@ -1,28 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+const isUpdate = (day) => {
+  // Implement logic to determine if this should be an update
+  // For example, check if `day` already has an entry in the database
+  
+  return false;
+};
+
+const saveToDatabase = async (day, value) => {
+  const url = isUpdate(day) ? `/weekly_plans/${day}` : '/weekly_plans';
+  const method = isUpdate(day) ? 'POST':'POST';
+  const data = {
+    weekday: day,
+    daily_text: value,
+    // Add other fields as necessary, like `users_id` if you're associating users with plans
+  };
+
+  try {
+    const response = await fetch("http://localhost:8000/weekly_plans", {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    // Optionally, handle the response data
+    const responseData = await response.json();
+    console.log('Saved successfully:', responseData);
+  } catch (error) {
+    console.error('Error saving to database:', error);
+  }
+};
+
 
 const WeeklyPlanner = () => {
   const [weekStartDate, setWeekStartDate] = useState(new Date());
+  const [inputs, setInputs] = useState({}); // Step 1: State for storing inputs
 
-  const startOfWeek = (date) => {
-    const day = date.getDay() || 7;
-    if (day !== 1) date.setHours(-24 * (day - 1));
-    return date;
+  // Step 2: Debounce function
+  const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
   };
 
-  const changeWeek = (increment) => {
-    const newDate = new Date(weekStartDate);
-    newDate.setDate(newDate.getDate() + (7 * increment));
+  useEffect(() => {
+    // Initialize inputs state with empty strings for each day of the week
+    const initialInputs = {};
+    const currentDate = new Date(weekStartDate);
+    for (let i = 0; i < 7; i++) {
+      initialInputs[currentDate.toISOString().split('T')[0]] = '';
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    setInputs(initialInputs);
+  }, [weekStartDate]);
 
-    setWeekStartDate(newDate);
+  // Step 3: Save function (placeholder)
+  const saveToDatabase = (day, value) => {
+    console.log(`Saving '${value}' for ${day} to the database`);
+    // Implement actual save logic here
   };
 
-  const getISOWeek = (date) => {
-    const d = new Date(date);
-    d.setHours(0, 0, 0, 0);
-    d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
-    const yearStart = new Date(d.getFullYear(), 0, 1);
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  const handleInputChange = (day, value) => {
+    setInputs((prev) => ({ ...prev, [day]: value }));
+    debounceSave(day, value);
   };
+
+  // Debounced save operation
+  const debounceSave = debounce(saveToDatabase, 5000);
 
   const days = [];
   const currentDate = new Date(weekStartDate);
@@ -30,6 +86,7 @@ const WeeklyPlanner = () => {
     days.push(new Date(currentDate));
     currentDate.setDate(currentDate.getDate() + 1);
   }
+
 
   return (
     <div>
@@ -64,6 +121,8 @@ const WeeklyPlanner = () => {
               </div>
               <hr />
               <textarea
+                value={inputs[day.toISOString().split('T')[0]] || ''}
+                onChange={(e) => handleInputChange(day.toISOString().split('T')[0], e.target.value)}
                 className="p-1 border-none resize-none rounded-lg outline-none my-4"
                 rows={4}
                 maxLength={150}

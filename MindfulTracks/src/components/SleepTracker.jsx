@@ -1,75 +1,175 @@
 import React, { useState } from 'react';
+import Notes from "../components/Notes";
+
 
 function SleepTracker() {
-  // State for form fields (assuming useState hooks will be added)
+
+//     const[sleepTracker, setSleepTracker] = useState([]);
+//     const[deleteModalOpen, setDeleteModalOpen] = useState(false);
+//     const [selectedSleepeId, setSelectedSleepId] = useState(null);
+
+//     //   Adding a course
+//     const [showAddModal, setShowAddModal] = useState(false);
+//     const [name, setName] = useState("");
+//     const [credits, setCredits] = useState("");
+//     const [startDate, setStartDate] = useState("");
+//     const [endDate, setEndDate] = useState("");
+//     const [description, setDescription] = useState("");
+
+//     // Error state variables
+//     const [nameError, setNameError] = useState("");
+
+//     async function fetchCourses() {
+//         try {
+//         const response = await fetch("http://localhost:8000/course");
+//         const data = await response.json();
+//         console.log(data);
+//         setCourses(data);
+//         console.log("In useeffect");
+//         } catch (error) {
+//         console.log(error);
+//         }
+//     }
+
+//     function deleteCourseFromState(courseId) {
+//         const newCourses = courses.filter((course) => course.id !== courseId);
+//         setCourses(newCourses);
+//     }
+
+//     async function deleteCourse(courseId) {
+//         try {
+//         const response = await fetch(
+//             `http://localhost:8000/course/${courseId}`,
+//             { method: "DELETE" }
+//         );
+//         // check for error response
+//         if (!response.ok) {
+//             // get error message from body or default to response status
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//         deleteCourseFromState(courseId);
+//         } catch (error) {
+//         console.log(error);
+//         }
+//     }
+//     //  FETCH ONLY ONCE!
+//     useEffect(() => {
+//         fetchCourses();
+//     }, []);
+
+//     function validateForm() {
+//         let isValid = true;
+//         // Reset error messages
+//         setNameError("");
+
+//         // Name validation
+//         if (!name.trim()) {
+//         setNameError("Du måste skriva ett namn på kursen");
+//         isValid = false;
+//         }
+
+//         return isValid;
+//     }
+
+//     const addCourseSubmit = async (event) => {
+//         event.preventDefault();
+//         let isValid = validateForm();
+
+//         if (isValid) {
+//         try {
+//             const response = await fetch("http://localhost:8000/v1/user/course", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//                 name,
+//                 credits: credits ? parseInt(credits, 10) : null, // Ensure credits is an integer or null
+//                 start_date: startDate || null,
+//                 end_date: endDate || null,
+//                 description,
+//             }),
+//             });
+
+//             if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//             }
+
+//             // Handle success - you might want to close the modal and refresh the courses list
+//             setShowAddModal(false);
+//         } catch (error) {
+//             console.error("Failed to add course:", error);
+//         }
+//         }
+//     };
 
   return (
 
     <div className="flex">
         <div className="max-w-xl mx-auto z-10">
-          <div className="flex mt-10 items-center">
-              <div className="text-4xl text-center font-semibold mb-4 font-josefin">Sleep Tracker</div>
-              <svg fill="#21543a" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="81px" height="81px" viewBox="-7.58 -7.58 123.39 123.39" xml:space="preserve" transform="matrix(-1, 0, 0, 1, 0, 0)" stroke="#21543a" stroke-width="1.515164"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M27.024,108.226c12.138,0,22.542-5.286,31.218-15.856c8.675-10.574,13.011-23.326,13.011-38.256 c0-14.891-4.336-27.629-13.012-38.226C49.566,5.297,39.163,0,27.024,0c14.89,0,27.642,5.297,38.255,15.889 c10.614,10.596,15.922,23.335,15.922,38.225c0,14.93-5.308,27.682-15.922,38.254C54.667,102.939,41.915,108.226,27.024,108.226z"></path> </g> </g></svg>
-          </div>
-          <form className="bg-white px-8 pt-6 pb-8 mb-4 font-josefin border-2 border-emerald-800 shadow-lg">
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">
-                    Date
-                </label>
-                <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="date"
-                    type="date"
-                    placeholder="Select date"
-                />
+            <form className="bg-white h-fit px-8 pt-6 pb-8 text-lg flex gap-10 font-josefin shadow-lg">
+                <div className="flex flex-col">
+                    <div className="mb-4">
+                        <label className="block text-gray-700 font-bold mb-2" htmlFor="date">
+                            Date
+                        </label>
+                        <input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="date"
+                            type="date"
+                            placeholder="Select date"
+                        />
+                    </div>
+                    <div className="mb-4">
+                    <label className="block text-gray-700  font-bold mb-2" htmlFor="bedtime">
+                        Bed Time
+                    </label>
+                    <input
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="bedtime"
+                        type="time"
+                        placeholder="Bed Time"
+                    />
+                    </div>
+                    <div className="mb-4">
+                    <label className="block text-gray-700  font-bold mb-2" htmlFor="waketime">
+                        Wake Time
+                    </label>
+                    <input
+                        className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="waketime"
+                        type="time"
+                        placeholder="Wake Time"
+                    />
+                    </div>
+                    <div className="mb-4">
+                    <label className="block text-gray-700 font-bold mb-2" htmlFor="sleepquality">
+                        Sleep Quality
+                    </label>
+                    <select
+                        className="shadow font-josefin border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="sleepquality"
+                    >
+                        <option value="Excellent">Excellent</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                        <option value="Poor">Poor</option>
+                    </select>
+                    </div>
+                    <div className="flex items-center justify-between">
+                    <button
+                        className="mt-3 flex justify-center w-full px-4 py-2 font-bold text-black border font-josefin border-emerald-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-800 transition-transform  hover:scale-110"
+                        type="submit"
+                    >
+                        Save
+                    </button>
+                    </div>
                 </div>
-                <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="bedtime">
-                    Bed Time
-                </label>
-                <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="bedtime"
-                    type="time"
-                    placeholder="Bed Time"
-                />
+                <div>
+                    <p className="font-bold">Notes</p>
+                    <Notes/>
                 </div>
-                <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="waketime">
-                    Wake Time
-                </label>
-                <input
-                    className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="waketime"
-                    type="time"
-                    placeholder="Wake Time"
-                />
-                </div>
-            
-                <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="sleepquality">
-                    Sleep Quality
-                </label>
-                <select
-                    className="shadow font-josefin border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="sleepquality"
-                >
-                    <option value="Excellent">Excellent</option>
-                    <option value="Good">Good</option>
-                    <option value="Fair">Fair</option>
-                    <option value="Poor">Poor</option>
-                </select>
-                </div>
-            
-                <div className="flex items-center justify-between">
-                <button
-                    className="mt-3 flex justify-center w-full px-4 py-2 text-sm font-bold text-black border font-josefin border-emerald-800 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-800 transition-transform  hover:scale-110"
-                    type="submit"
-                >
-                    Save
-                </button>
-                </div>
-          </form>
+            </form>
         </div>
     </div>
   );

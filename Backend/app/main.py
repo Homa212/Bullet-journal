@@ -34,17 +34,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# @app.post("/users", status_code=201)
-# def add_user(users: UserSchema, db: Session = Depends(get_db)):
-#     try:
-#         # db_users.password = generate_password_hash(db_users.password) ???
-#         db_users = User(**users.model_dump())
-#         db.add(db_users)
-#         db.commit()
-#     except IntegrityError as e:
-#         raise HTTPException(status_code=400, detail="Database error")
-#     return db_users
-
 @app.post("/weekly_plans", status_code=201)
 def add_weekly_plan(weekly_plans: WeeklyPlanSchema, db: Session = Depends(get_db)):
     try:

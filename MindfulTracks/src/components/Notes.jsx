@@ -9,7 +9,7 @@ function Notes() {
   };
 
   return (
-    <div className="notes-container">
+    <div className="notes-container mt-">
       <textarea
         className="notes-textarea"
         value={noteText}
