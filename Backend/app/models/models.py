@@ -51,10 +51,9 @@ class Todo(Base):
 
 class SleepTracker(Base):
     __tablename__= "sleep_trackers"
-    date_of_sleep: Mapped[date] = mapped_column(nullable=False)
     sleep_quality: Mapped[int] = mapped_column(nullable=True)
-    start_time: Mapped[time] = mapped_column(nullable=True)
-    end_time: Mapped[time] = mapped_column(nullable=True)
+    start_time: Mapped[datetime] = mapped_column(nullable=True)
+    end_time: Mapped[datetime] = mapped_column(nullable=True)
     sleeping_hours: Mapped[int] = mapped_column(nullable=True)
     sleeping_min: Mapped[int] = mapped_column(nullable=True)
     notes: Mapped[str] = mapped_column(String(1000), nullable=True)

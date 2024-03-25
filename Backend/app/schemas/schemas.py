@@ -59,10 +59,9 @@ class TodoSchema(BaseModelConfig):
     todo_checkbox: Optional [bool] | None = False
 
 class SleepTrackerSchema(BaseModelConfig):
-    date_of_sleep: date
-    sleep_quality: Optional[int] = Field(gt=0, lt=6)
-    start_time: Optional [time]
-    end_time: Optional [time] 
+    sleep_quality: Optional[int] = Field(gt=0, lt=5)
+    start_time: Optional [datetime]
+    end_time: Optional [datetime] 
     sleeping_hours: Optional [int]
     sleeping_min: Optional [int] 
     notes: Optional[str] = Field(max_length=1000)
