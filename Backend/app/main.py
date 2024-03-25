@@ -103,14 +103,13 @@ def delete_todo(todos_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code= 404, detail= "Todo not found")
     return {"message": "Todo deleted"}
 
-@app.post("/sleep_trackers", tags=["sleep_trackers"], status_code=201)
-def add_sleep_tracker(sleep_trackers: SleepTrackerSchema, current_user:Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+@app.post("/sleep_trackers", tags=["sleep_trackers"], status_code=status.HTTP_201_CREATED)
+def add_sleep_tracker(sleep_trackers: SleepTrackerSchema, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     try:
-        user_id = current_user.id  
+        user_id = current_user.id 
         db_sleep_trackers = SleepTracker(**sleep_trackers.model_dump(), users_id=user_id)
         db.add(db_sleep_trackers)
         db.commit()
-        db.refresh(db_sleep_trackers)
     except IntegrityError as e:
         print(e)
         raise HTTPException(status_code=400, detail="Database error")

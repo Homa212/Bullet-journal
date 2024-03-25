@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../Notes.css'; // Import your custom CSS
 
-function Notes() {
+function Notes({ notes, handleChange }) {
   // const [noteText, setNoteText] = useState("");
 
   // const handleTextChange = (event) => {
@@ -11,11 +11,12 @@ function Notes() {
   return (
     <div className="notes-container mt-">
       <textarea
-        className="notes-textarea"
-        // value={noteText}
-        // onChange={handleTextChange}
-        placeholder="Start typing your notes here..."
-        wrap="soft"
+       className="notes-textarea"
+       value={notes}
+       onChange={handleChange}
+       id="notes" // Make sure to provide an 'id' that matches the state property
+       placeholder="Start typing your notes here..."
+       wrap="soft"
       />
     </div>
   );

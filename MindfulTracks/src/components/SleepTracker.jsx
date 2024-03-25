@@ -10,10 +10,11 @@ const SleepTracker = () => {
     });
   
     const handleChange = (e) => {
-      const { id, value } = e.target;
+      const { id, value, type } = e.target;
       setForm(prevForm => ({
         ...prevForm,
-        [id]: e.target.type === 'select-one' ? value : value, // This is a placeholder, adjust as needed
+        [id]: type === 'select-one' || type === 'textarea' ? value : value,
+        // [id]: e.target.type === 'select-one' || type === 'textarea' ? value : value, 
       }));
     };
   
@@ -38,14 +39,14 @@ const SleepTracker = () => {
       const diff = waketime - bedtime; // difference in milliseconds
       const hours = diff / (1000 * 60 * 60);
       const totalHours = Math.floor(hours);
-      const totalMinutes = Math.round((hours - totalHours) * 60);
+      const totalMinutes = Math.floor((hours - totalHours) * 60);
   
       // Here, adjust the URL to your actual FastAPI backend endpoint
       const response = await fetch('http://localhost:8000/sleep_trackers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Include any other headers your API requires
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
         },
         body: JSON.stringify({
           ...form,
@@ -107,7 +108,9 @@ const SleepTracker = () => {
                             </label>
                             <select
                                 className="shadow font-josefin border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="sleepquality"
+                                id="sleepQuality"
+                                value={form.sleepQuality}
+                                onChange={handleChange}
                             >
                                 <option value="Excellent">Excellent</option>
                                 <option value="Good">Good</option>
@@ -126,7 +129,7 @@ const SleepTracker = () => {
                     </div>
                     <div>
                         <p className="font-bold">Notes</p>
-                        <Notes/>
+                        <Notes notes={form.notes} handleChange={handleChange}/>
                     </div>
                 </form>
             </div>
