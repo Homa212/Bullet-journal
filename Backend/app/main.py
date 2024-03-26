@@ -121,17 +121,23 @@ def list_sleep_trackers(current_user: Annotated[User, Depends(get_current_user)]
     return db.scalars(query).all()
 
 
-@app.delete("/sleep_trackers/{sleep_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_sleep_tracker(sleep_id: int, db: Session = Depends(get_db)):
+@app.delete("/sleep_trackers/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_sleep_tracker(id: int, db: Session = Depends(get_db)):
     """
     Deletes a sleep tracker based on an id
     """
-    db_sleep_tracker = db.get(SleepTracker, sleep_id)
-    if db_sleep_tracker is None:
-        raise HTTPException(status_code=404, detail="Sleep tracker not found")
-    db.delete(db_sleep_tracker)
+    query = delete(SleepTracker).where(SleepTracker.id == id)
+    result = db.execute(query)
     db.commit()
-    return {}
+    if result.rowcount == 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Sleep tracker not found")
+    return {"message": "Sleep tracker deleted"}
+    # if db_sleep_tracker is None:
+    #     raise HTTPException(status_code=404, detail="Sleep tracker not found")
+    # db.delete(db_sleep_tracker)
+    # db.commit()
+    # return {}
 
 
 @app.post("/workout_trackers", status_code=201)
