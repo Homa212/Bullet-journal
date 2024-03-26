@@ -1,11 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Journal from "../components/Journal"
+import Textbook from "../components/Journal"
 
 function JournalPage() {
     return(
-        <div className="font-josefin w-screen">
-            <Journal/>
+        <div className="font-josefin">
+            <Textbook/>
             <div><Outlet/></div>
         </div>
     );
