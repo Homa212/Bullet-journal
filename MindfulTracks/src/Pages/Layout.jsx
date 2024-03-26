@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 function Layout() {
   return (
-    <div className="relativ h-screen">
+    <div className="relative h-screen">
       <Navbar/>
       <Outlet/>
     </div>
