@@ -8,8 +8,7 @@
   
   .notes-textarea {
     width: 100%;
-    height: 600px; /* Adjust the height as needed */
-    border: none;
+    height: 350px; /* Adjust the height as needed */
     padding: 1rem;
     resize: none;
     background-color: transparent;
@@ -21,10 +20,10 @@
     outline: none;
   }
   
-  /* Adjust the background-color and line color as needed */
+  /* Adjust the background-color and line color as needed
   .notes-textarea:focus {
     box-shadow: 0 0 0 2px #063e2c;
-  }
+  } */
   
   /* Add more custom styles as needed */
   

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Notes from "../components/Notes";
 
+
 const SleepTracker = () => {
     const [form, setForm] = useState({
       bedtime: '',
       waketime: '',
-      sleepQuality: '', // Assuming this should be an integer based on your backend schema
+      sleepQuality: '',
       notes: '',
     });
   
@@ -14,12 +15,9 @@ const SleepTracker = () => {
       setForm(prevForm => ({
         ...prevForm,
         [id]: type === 'select-one' || type === 'textarea' ? value : value,
-        // [id]: e.target.type === 'select-one' || type === 'textarea' ? value : value, 
       }));
     };
   
-    // Assuming sleep quality needs to be an integer according to your backend schema
-    // Adjust the mapping according to your actual requirements
     const mapSleepQualityToInteger = (quality) => {
         const qualityMapping = {
           'Excellent': 4,
@@ -41,7 +39,6 @@ const SleepTracker = () => {
       const totalHours = Math.floor(hours);
       const totalMinutes = Math.floor((hours - totalHours) * 60);
   
-      // Here, adjust the URL to your actual FastAPI backend endpoint
       const response = await fetch('http://localhost:8000/sleep_trackers', {
         method: 'POST',
         headers: {

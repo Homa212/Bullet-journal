@@ -9,7 +9,7 @@ function Notes({ notes, handleChange }) {
   // };
 
   return (
-    <div className="notes-container mt-">
+    <div className="notes-container ">
       <textarea
        className="notes-textarea"
        value={notes}

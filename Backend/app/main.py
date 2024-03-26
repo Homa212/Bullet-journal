@@ -115,15 +115,23 @@ def add_sleep_tracker(sleep_trackers: SleepTrackerSchema, current_user: Annotate
         raise HTTPException(status_code=400, detail="Database error")
     return db_sleep_trackers
 
-# @app.get("/sleep_trackers/full", status_code=200)
-# def list_companies(db: Session = Depends(get_db)):
-#     """
-#     List companies and their companytype
-#     This also includes a join to fetch data for company types.
-#     """
-#     user = db.scalars(select(User).where(User.id == 1).options(
-#         joinedload(User.sleep_tracker)).all()
-#     return companies
+@app.get("/sleep_trackers", tags=["sleep_trackers"], status_code=status.HTTP_200_OK)
+def list_sleep_trackers(current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)) -> list[SleepTrackerSchema]:
+    query = select(SleepTracker).where(SleepTracker.users_id == current_user.id).order_by(SleepTracker.start_time)
+    return db.scalars(query).all()
+
+
+@app.delete("/sleep_trackers/{sleep_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_sleep_tracker(sleep_id: int, db: Session = Depends(get_db)):
+    """
+    Deletes a sleep tracker based on an id
+    """
+    db_sleep_tracker = db.get(SleepTracker, sleep_id)
+    if db_sleep_tracker is None:
+        raise HTTPException(status_code=404, detail="Sleep tracker not found")
+    db.delete(db_sleep_tracker)
+    db.commit()
+    return {}
 
 
 @app.post("/workout_trackers", status_code=201)
