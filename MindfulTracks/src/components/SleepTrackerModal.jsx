@@ -13,8 +13,7 @@ const SleepTrackerModal = ({ tracker, onClose, onDelete, fetchSleepTrackers }) =
         const id = parseInt(qualityId, 10);
         return qualityMapping[id] || "Unknown";
       };
-      
-      
+   
     return (
         <div className="fixed z-20 inset-0 bg-gray-800 bg-opacity-30 flex justify-center items-center p-4">
             <div className="bg-white rounded-lg p-6 shadow-lg relative">
@@ -34,7 +33,7 @@ const SleepTrackerModal = ({ tracker, onClose, onDelete, fetchSleepTrackers }) =
                 <div className="flex justify-center gap-2 space-x-2 mt-4">
                     <button
                         className="px-4 py-2 bg-emerald-800 text-md text-white rounded font-medium hover:bg-emerald-700 border-2 border-emerald-800 hover:text-white hover:border-2 hover:border-emerald-700"
-                        // Implement update logic or remove if not necessary
+                        // onChange={handleChange}
                         >
                         Update
                     </button>

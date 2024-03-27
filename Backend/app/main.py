@@ -134,11 +134,20 @@ def delete_sleep_tracker(id: int, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Sleep tracker not found")
     return {"message": "Sleep tracker deleted"}
-    # if db_sleep_tracker is None:
-    #     raise HTTPException(status_code=404, detail="Sleep tracker not found")
-    # db.delete(db_sleep_tracker)
-    # db.commit()
-    # return {}
+
+@app.put("/sleep_trackers/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def update_sleep_tracker(id: int, sleep_tracker_info: SleepTrackerSchema, db: Session = Depends(get_db)):
+    query = select(SleepTracker).where(SleepTracker.id == id)
+    db_sleep_tracker = db.scalars(query).first()
+    if not db_sleep_tracker:
+        raise HTTPException(status_code=404, detail="Sleep tracker not found")
+    
+    for key, value in sleep_tracker_info.model_dump(exclude_unset=True).items():
+        setattr(db_sleep_tracker, key, value)
+    
+    db.commit()
+    return db_sleep_tracker
+
 
 
 @app.post("/workout_trackers", status_code=201)

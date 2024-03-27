@@ -66,7 +66,6 @@ const SleepTracker = ({fetchSleepTrackers}) => {
       }
     };
   
-   
     return (
       <div className="flex">
         <div className="max-w-xl mx-auto z-10">
