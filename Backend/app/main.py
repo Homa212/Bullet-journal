@@ -159,10 +159,11 @@ def delete_workout_tracker(workout_trackers_id: int, db: Session = Depends(get_d
         raise HTTPException(status_code= 404, detail= "Workout tracker for that day was not found")
     return {"message": "Workout tracker for that day deleted"}
 
-@app.post("/journal_your_days", status_code=201)
-def add_sleep_tracker(journal_your_days: JournalYourDaySchema, db: Session = Depends(get_db)):
+@app.post("/journal_your_days", tags=["journal_your_days"], status_code=status.HTTP_200_OK)
+def add_sleep_tracker(journal_your_days: JournalYourDaySchema, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     try:
-        db_journal_your_days = JournalYourDay(**journal_your_days.model_dump())
+        user_id = current_user.id 
+        db_journal_your_days = JournalYourDay(**journal_your_days.model_dump(),users_id=user_id )
         db.add(db_journal_your_days)
         db.commit()
     except IntegrityError as e:

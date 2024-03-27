@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const Journal = () => {
     const [pages, setPages] = useState([
@@ -7,15 +7,7 @@ const Journal = () => {
     ]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
     const [searchedDate, setSearchedDate] = useState('');
-    const [searchedPageIndex, setSearchedPageIndex] = useState(-1); // -1 means not found
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            saveToDatabase();
-        }, 5000);
-
-        return () => clearTimeout(timeoutId);
-    }, [pages, currentPageIndex]);
+    const [searchedPageIndex, setSearchedPageIndex] = useState(-1);
 
     const handlePageChange = (direction) => {
         if (direction === 'next') {
@@ -67,26 +59,54 @@ const Journal = () => {
             setSearchedPageIndex(-1);
         }
     };
-    
 
-    const saveToDatabase = async () => {
+    const saveToLocal = useCallback((currentPage) => {
+        const userId = localStorage.getItem("userId"); // Antag att du har sparad användar-id när de loggar in
+        const key = `journal-${userId}`;
+        const existingPages = JSON.parse(localStorage.getItem(key)) || [];
+        existingPages[currentPageIndex] = currentPage;
+        localStorage.setItem(key, JSON.stringify(existingPages));
+    }, [currentPageIndex]);
+
+    const saveToDatabase = useCallback(async () => {
         const currentPage = pages[currentPageIndex];
         try {
-            await fetch('/journal_your_days', {
+            const response = await fetch('http://localhost:8000/journal_your_days', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 },
-                body: JSON.stringify({
-                    journaling_date: currentPage.leftDate,
-                    text: currentPage.leftText
-                })
+                body: JSON.stringify(currentPage)
             });
+            if (!response.ok) {
+                throw new Error('Failed to save journal entry');
+            }
+            const data = await response.json();
+            console.log('Journal entry saved:', data);
+            saveToLocal(currentPage); // Spara även lokalt
         } catch (error) {
-            console.error('Error saving to database:', error);
+            console.error(error);
         }
-    };
-    
+    }, [pages, currentPageIndex, saveToLocal]);
+
+        useEffect(() => {
+            const userId = localStorage.getItem("userId"); // Hämta användar-id
+            const key = `journal-${userId}`;
+            const savedPages = JSON.parse(localStorage.getItem(key));
+            if (savedPages && savedPages.length > 0) {
+                setPages(savedPages);
+            }
+        }, []);
+
+        useEffect(() => {
+            const handler = setTimeout(() => {
+                saveToDatabase();
+            }, 5000); // Spara efter 5 sekunders inaktivitet
+
+            return () => clearTimeout(handler);
+        }, [pages, currentPageIndex, saveToDatabase]);
+
     return (
         <>
             <div className='flex mt-8 items-center -mb-8'>
@@ -182,4 +202,5 @@ const Journal = () => {
         </>
     );
 };
+
 export default Journal;

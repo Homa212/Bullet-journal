@@ -63,3 +63,30 @@
 // );
 // };
 // export default Journal;    
+
+
+  // const saveToDatabase = async (e) => {
+    //     e.preventDefault();
+
+    //     const currentPage = pages[currentPageIndex]
+    //     const response = await fetch('http://localhost:8000/journal_your_days', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization': `Bearer ${localStorage.getItem("token")}`
+    //         },
+    //         body: JSON.stringify({
+    //             journaling_date: currentPage.leftDate,
+    //             text: currentPage.leftText
+    //         })
+    //     });
+
+    //     if (!response.ok) {
+    //         // Handle response errors here
+    //         console.error('Failed to save sleep tracker data');
+    //         } else {
+    //         const data = await response.json();
+    //         console.log('Sleep tracker saved:', data);
+    //         // Handle successful form submission here (e.g., clear the form, show a success message)
+    //     }
+    // };
