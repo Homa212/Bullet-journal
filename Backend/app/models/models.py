@@ -77,7 +77,7 @@ class WorkoutTracker(Base):
 
 class JournalYourDay(Base):
     __tablename__="journal_your_days"
-    journaling_date: Mapped[datetime] = mapped_column(nullable=True)
+    journaling_date: Mapped[date] = mapped_column(nullable=True)
     text: Mapped[str] = mapped_column(nullable=False)
 
     users: Mapped[User] = relationship("User", back_populates="journal_your_days")
