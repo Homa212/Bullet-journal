@@ -147,6 +147,9 @@ const WeeklyPlanner = () => {
                 maxLength={150}
                 placeholder="What's happening today?"
               ></textarea>
+              {index === 7 && (
+                <img src="" alt="" />
+              )}
             </div>
           ))}
         </div>
