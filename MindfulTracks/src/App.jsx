@@ -1,5 +1,5 @@
 import Layout from "./Pages/Layout";
-// import LandingPage from "./Pages/LandingPage";
+import LandingPage from "./Pages/LandingPage";
 import RegisterPage from "./Pages/RegisterPage";
 import LoginPage from "./Pages/LoginPage";
 import PasswordResetPage from "./Pages/PasswordResetPage";
@@ -23,6 +23,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>
+          <Route path='/LandingPage' element={<LandingPage/>}></Route>
           <Route path='/LoginPage' element={<LoginPage/>}></Route>
           <Route path='/RegisterPage' element={<RegisterPage/>}></Route>
           <Route path='/PasswordResetPage' element={<PasswordResetPage/>}></Route>
