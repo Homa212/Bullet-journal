@@ -63,8 +63,6 @@ const SleepTracker = ({fetchSleepTrackers}) => {
         const data = await response.json();
         console.log('Sleep tracker saved:', data);
         fetchSleepTrackers()
-
-        // Handle successful form submission here (e.g., clear the form, show a success message)
       }
     };
   

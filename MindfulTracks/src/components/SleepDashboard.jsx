@@ -17,7 +17,7 @@ const SleepDashboard = ({fetchSleepTrackers, sleepTrackers, setSleepTrackers}) =
     const handleDeleteTracker = async (id) => {
         console.log('Deleting in Dashboard, ID:', id);
        
-        // Implement delete functionality here, then remove the tracker from state
+        // Delete functionality
         try {
             const response = await fetch(`http://localhost:8000/sleep_trackers/${id}`, {
                 method: "DELETE",
@@ -31,6 +31,7 @@ const SleepDashboard = ({fetchSleepTrackers, sleepTrackers, setSleepTrackers}) =
             }
             // Remove deleted tracker from state
             else setSleepTrackers(sleepTrackers.filter((tracker) => tracker.id !== id));
+            setSelectedTracker(null);
             
         } catch (error) {
             console.error(error);
@@ -43,7 +44,7 @@ const SleepDashboard = ({fetchSleepTrackers, sleepTrackers, setSleepTrackers}) =
       <div>
         <p className="text-xl font-bold text-center mb-4">Your Sleep History</p>
         <div className="grid grid-cols-1 gap-4 absolute pb-5">
-          {sleepTrackers.slice().reverse().map((tracker, index) => (
+          {sleepTrackers.slice().reverse().map((tracker, index ) => (
             <div
               key={index}
               className="bg-white py-3 px-10 rounded-lg shadow border-2 hover:bg-gray-100 cursor-pointer"
@@ -52,7 +53,6 @@ const SleepDashboard = ({fetchSleepTrackers, sleepTrackers, setSleepTrackers}) =
               <h2 className="font-semibold text-lg">Sleep Tracker {sleepTrackers.length - index}</h2>
               <p className="text-base">Bed time: {new Date(tracker.start_time).toLocaleString()}</p>
               <p className="text-base">Wake time: {new Date(tracker.end_time).toLocaleString()}</p>
-              {/* Add more details as needed */}
             </div>
           ))}
         </div>

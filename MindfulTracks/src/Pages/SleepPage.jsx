@@ -19,9 +19,9 @@ function SleepPage() {
           if (!response.ok) {
               throw new Error("Network response was not ok");
           }
-          const sortedData = data.sort((a, b) => b.id - a.id);
+          const sortedData = data.sort((a, b) => new Date(b.start_time) - new Date(a.start_time));
           setSleepTrackers(sortedData);
-          // setSleepTrackers(data);
+        //   ((a, b) => b.id - a.id);
       } catch (error) {
           console.error(error);
       }
@@ -43,7 +43,6 @@ function SleepPage() {
                     fetchSleepTrackers = {fetchSleepTrackers}
                     sleepTrackers = {sleepTrackers}
                     setSleepTrackers = {setSleepTrackers}
-
                     />
                 </div>
             </div>

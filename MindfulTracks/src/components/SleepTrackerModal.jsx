@@ -11,7 +11,7 @@ const SleepTrackerModal = ({ tracker, onClose, onDelete, fetchSleepTrackers }) =
         };
         // Ensure qualityId is an integer
         const id = parseInt(qualityId, 10);
-        return qualityMapping[id];
+        return qualityMapping[id] || "Unknown";
       };
       
       
@@ -27,7 +27,7 @@ const SleepTrackerModal = ({ tracker, onClose, onDelete, fetchSleepTrackers }) =
                 <h3 className="text-xl font-bold mb-4">Sleep Tracker Details</h3>
                 <p><strong>Bed time:</strong> {new Date(tracker.start_time).toLocaleString()}</p>
                 <p><strong>Wake time:</strong> {new Date(tracker.end_time).toLocaleString()}</p>
-                <p><strong>Sleep quality:</strong>{mapIntegerToSleepQuality(tracker.sleep_quality)}</p>
+                <p><strong>Sleep quality:</strong>{mapIntegerToSleepQuality(tracker.sleep_quality) || "Unknown"}</p>
                 <p><strong>Hours Slept:</strong> {tracker.sleeping_hours}</p>
                 <p><strong>Minutes Slept:</strong> {tracker.sleeping_min}</p>
                 <p><strong>Notes:</strong> {tracker.notes}</p>
@@ -40,13 +40,10 @@ const SleepTrackerModal = ({ tracker, onClose, onDelete, fetchSleepTrackers }) =
                     </button>
                     <button
                     className="px-4 py-2 bg-gray-700 text-md text-white rounded font-medium border-2 border-gray-700 hover:bg-gray-500 hover:text-white hover:border-2 hover:border-gray-500"
-                    onClick={() => { // Confirm the ID is logged correctly here
+                    onClick={() => { 
                         onDelete(tracker.id);
                         fetchSleepTrackers();
-                        
                     }}
-                
-                    // onClick={() => onDelete(tracker.id)} 
                     >
                     Delete
                     </button>
