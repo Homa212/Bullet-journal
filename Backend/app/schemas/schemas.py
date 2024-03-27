@@ -50,6 +50,14 @@ class WeeklyPlanSchema(BaseModelConfig):
     weekday: date
     daily_text: str = Field(max_length=1000)
 
+class WeeklyPlanUpdateSchema(BaseModelConfig):
+    daily_text: str = Field(max_length=1000)
+
+class WeeklyPlanOutSchema(BaseModelConfig):
+    id: int
+    weekday: date
+    daily_text: str = Field(max_length=1000)
+
 class HabitSchema(BaseModelConfig):
     habit_text: str = Field(max_length=500)
     habit_checkbox: Optional[bool] | None = False

@@ -4,13 +4,15 @@ from contextlib import asynccontextmanager
 from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload, selectinload, load_only
-from sqlalchemy import select, update, delete, insert
+from sqlalchemy import select, update, delete, insert, and_
 from app.models.models import User, WeeklyPlan, Habit, Todo, SleepTracker, WorkoutTracker, JournalYourDay, MoodTracker
-from app.schemas.schemas import UserSchema, WeeklyPlanSchema, HabitSchema, TodoSchema, SleepTrackerSchema, SleepTrackerOutSchema, WorkoutTrackerSchema, JournalYourDaySchema, MoodTrackerSchema 
+from app.schemas.schemas import UserSchema, WeeklyPlanSchema, WeeklyPlanUpdateSchema, WeeklyPlanOutSchema, HabitSchema, TodoSchema, SleepTrackerSchema, SleepTrackerOutSchema, WorkoutTrackerSchema, JournalYourDaySchema, MoodTrackerSchema 
 from sqlalchemy.exc import IntegrityError, NoResultFound
 from auth_endpoints import router as auth_router
 from app.security import get_current_user
 from typing import Annotated
+from datetime import date, time, datetime
+
 
 origin = [
     "http://localhost:3000",
@@ -45,26 +47,25 @@ def add_weekly_plan(weekly_plans: WeeklyPlanSchema, current_user: Annotated[User
         raise HTTPException(status_code=400, detail="Database error")
     return db_weekly_plan
 
-@app.put("/weekly_plans/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def update_weekly_plan(id: int, weekly_plans_info: WeeklyPlanSchema, db: Session = Depends(get_db)):
-    query = select(WeeklyPlan).where(WeeklyPlan.id == id)
-    db_weekly_plans = db.scalars(query).first()
-    if not db_weekly_plans:
+@app.put("/weekly_plans/{formattedDate}", status_code=status.HTTP_204_NO_CONTENT)
+def update_weekly_plan(formattedDate: date, weekly_plans_info: WeeklyPlanUpdateSchema, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+    query = select(WeeklyPlan).where(and_(WeeklyPlan.weekday == formattedDate, WeeklyPlan.users_id == current_user.id))
+    db_weekly_plan = db.execute(query).scalar_one_or_none()
+    if not db_weekly_plan:
         raise HTTPException(status_code=404, detail="Weekly plan not found")
-    
-    for key, value in weekly_plans_info.model_dump(exclude_unset=True).items():
-        setattr(db_weekly_plans, key, value)
-    
-    db.commit()
-    return db_weekly_plans
 
-@app.get("/weekly_plans/{id}", status_code=200)
-def list_weekly_plans(id: int, db: Session = Depends(get_db)):
-    weekly_plan = db.scalars(select(WeeklyPlan).where(WeeklyPlan.id == id).options(
-        joinedload(WeeklyPlan.habits),joinedload(WeeklyPlan.todos))).all()
+    for key, value in weekly_plans_info.dict(exclude_unset=True).items():
+        setattr(db_weekly_plan, key, value)
+    db.commit()
+    return {}
+
+@app.get("/weekly_plans/{formattedDate}", status_code=200)
+def list_weekly_plans(formattedDate: date, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)) -> list[WeeklyPlanOutSchema]:
+    weekly_plan = db.scalars(select(WeeklyPlan).where(and_(WeeklyPlan.weekday == formattedDate, WeeklyPlan.users_id == current_user.id)))
     if not weekly_plan:
         raise HTTPException(status_code=404, detail="Weekly plan not found")
     return weekly_plan
+
 
 @app.post("/habits", status_code=201)
 def add_habit(habits: HabitSchema, db: Session = Depends(get_db)):
