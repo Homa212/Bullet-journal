@@ -1,29 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SleepTrackerModal from './SleepTrackerModal';
 
-const SleepDashboard = () => {
-    const [sleepTrackers, setSleepTrackers] = useState([]);
-    const [selectedTracker, setSelectedTracker] = useState(null);
+const SleepDashboard = ({fetchSleepTrackers, sleepTrackers, setSleepTrackers}) => {
 
+  const [selectedTracker, setSelectedTracker] = useState(null);
+    
     useEffect(() => {
-        const fetchSleepTrackers = async () => {
-            try {
-                const response = await fetch("http://localhost:8000/sleep_trackers", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                });
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                const sortedData = data.sort((a, b) => b.id - a.id);
-                setSleepTrackers(sortedData);
-                // setSleepTrackers(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
         fetchSleepTrackers();
     }, []);
 
@@ -32,7 +14,6 @@ const SleepDashboard = () => {
         setSelectedTracker(tracker);
     };
     
-
     const handleDeleteTracker = async (id) => {
         console.log('Deleting in Dashboard, ID:', id);
        
@@ -79,9 +60,9 @@ const SleepDashboard = () => {
 
       {selectedTracker && (
         <SleepTrackerModal
-            tracker={selectedTracker}
-            onClose={() => setSelectedTracker(null)}
-            onDelete={handleDeleteTracker}
+          tracker={selectedTracker}
+          onClose={() => setSelectedTracker(null)}
+          onDelete={handleDeleteTracker}
         />
       )}
     </div>

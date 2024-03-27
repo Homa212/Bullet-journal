@@ -66,6 +66,16 @@ class SleepTrackerSchema(BaseModelConfig):
     sleeping_min: Optional [int] 
     notes: Optional[str] = Field(max_length=1000)
 
+
+class SleepTrackerOutSchema(BaseModelConfig):
+    id: int
+    sleep_quality: Optional[int] = Field(gt=0, lt=5)
+    start_time: Optional [datetime]
+    end_time: Optional [datetime] 
+    sleeping_hours: Optional [int]
+    sleeping_min: Optional [int] 
+    notes: Optional[str] = Field(max_length=1000)
+
 class WorkoutTrackerSchema(BaseModelConfig):
     workout_date: date
     workout_description: Optional[str] = Field(max_length=1000)
@@ -75,11 +85,11 @@ class WorkoutTrackerSchema(BaseModelConfig):
     workout_duration_min: Optional[int]
 
 class JournalYourDaySchema(BaseModelConfig):
-    journaling_date: date
+    journaling_date: datetime
     text: str
 
 class MoodTrackerSchema(BaseModelConfig):
-    moodtracker_date: date
+    moodtracker_date: datetime.date
     mood_scale: Optional[int] = Field(gt=0, lt=6)
     mood_description: Optional[str] = Field(max_length=1000)
 

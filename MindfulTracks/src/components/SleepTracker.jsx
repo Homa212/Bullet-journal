@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Notes from "../components/Notes";
 
 
-const SleepTracker = () => {
+const SleepTracker = ({fetchSleepTrackers}) => {
     const [form, setForm] = useState({
       bedtime: '',
       waketime: '',
@@ -62,6 +62,8 @@ const SleepTracker = () => {
       } else {
         const data = await response.json();
         console.log('Sleep tracker saved:', data);
+        fetchSleepTrackers()
+
         // Handle successful form submission here (e.g., clear the form, show a success message)
       }
     };

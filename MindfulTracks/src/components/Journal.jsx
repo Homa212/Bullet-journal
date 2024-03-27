@@ -69,7 +69,12 @@ const Journal = () => {
     }, [currentPageIndex]);
 
     const saveToDatabase = useCallback(async () => {
-        const currentPage = pages[currentPageIndex];
+        const { leftDate, leftText, rightText, rightDate } = pages[currentPageIndex];
+        const body = JSON.stringify({
+            date: leftDate, rightDate,
+            text: leftText, rightText
+        });
+      
         try {
             const response = await fetch('http://localhost:8000/journal_your_days', {
                 method: 'POST',
@@ -77,7 +82,7 @@ const Journal = () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("token")}`
                 },
-                body: JSON.stringify(currentPage)
+                body: body
             });
             if (!response.ok) {
                 throw new Error('Failed to save journal entry');

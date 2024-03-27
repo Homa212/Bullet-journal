@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload, selectinload, load_only
 from sqlalchemy import select, update, delete, insert
 from app.models.models import User, WeeklyPlan, Habit, Todo, SleepTracker, WorkoutTracker, JournalYourDay, MoodTracker
-from app.schemas.schemas import UserSchema, WeeklyPlanSchema, HabitSchema, TodoSchema, SleepTrackerSchema, WorkoutTrackerSchema, JournalYourDaySchema, MoodTrackerSchema 
+from app.schemas.schemas import UserSchema, WeeklyPlanSchema, HabitSchema, TodoSchema, SleepTrackerSchema, SleepTrackerOutSchema, WorkoutTrackerSchema, JournalYourDaySchema, MoodTrackerSchema 
 from sqlalchemy.exc import IntegrityError, NoResultFound
 from auth_endpoints import router as auth_router
 from app.security import get_current_user
@@ -116,7 +116,7 @@ def add_sleep_tracker(sleep_trackers: SleepTrackerSchema, current_user: Annotate
     return db_sleep_trackers
 
 @app.get("/sleep_trackers", tags=["sleep_trackers"], status_code=status.HTTP_200_OK)
-def list_sleep_trackers(current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)) -> list[SleepTrackerSchema]:
+def list_sleep_trackers(current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)) -> list[SleepTrackerOutSchema]:
     query = select(SleepTracker).where(SleepTracker.users_id == current_user.id).order_by(SleepTracker.start_time)
     return db.scalars(query).all()
 
@@ -160,7 +160,7 @@ def delete_workout_tracker(workout_trackers_id: int, db: Session = Depends(get_d
     return {"message": "Workout tracker for that day deleted"}
 
 @app.post("/journal_your_days", tags=["journal_your_days"], status_code=status.HTTP_200_OK)
-def add_sleep_tracker(journal_your_days: JournalYourDaySchema, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
+def add_journal_your_day(journal_your_days: JournalYourDaySchema, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     try:
         user_id = current_user.id 
         db_journal_your_days = JournalYourDay(**journal_your_days.model_dump(),users_id=user_id )

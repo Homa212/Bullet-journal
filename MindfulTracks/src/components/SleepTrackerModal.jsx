@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SleepTrackerModal = ({ tracker, onClose, onDelete }) => {
+const SleepTrackerModal = ({ tracker, onClose, onDelete, fetchSleepTrackers }) => {
 
     const mapIntegerToSleepQuality = (qualityId) => {
         const qualityMapping = {
@@ -42,6 +42,8 @@ const SleepTrackerModal = ({ tracker, onClose, onDelete }) => {
                     className="px-4 py-2 bg-gray-700 text-md text-white rounded font-medium border-2 border-gray-700 hover:bg-gray-500 hover:text-white hover:border-2 hover:border-gray-500"
                     onClick={() => { // Confirm the ID is logged correctly here
                         onDelete(tracker.id);
+                        fetchSleepTrackers();
+                        
                     }}
                 
                     // onClick={() => onDelete(tracker.id)} 
