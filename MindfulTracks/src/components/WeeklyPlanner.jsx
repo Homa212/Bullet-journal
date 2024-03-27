@@ -280,7 +280,7 @@ const WeeklyPlanner = () => {
   
         <div className="grid resize-none xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 w-full gap-3 h-fit">
           {days.map((day, index) => (
-            <div key={index} className={`p-4 mt-4 text-center flex flex-col border-2 border-emerald-800 shadow-lg ${new Date().toDateString() === day.toDateString() ? 'bg-amber-50 border-[3px] border-emerald-800' : ''}`}>
+            <div key={index} className={`p-4 mt-4 text-center flex flex-col border-2 border-emerald-800 shadow-lg ${new Date().toDateString() === day.toDateString() ? 'border-[3px] border-emerald-800' : ''}`}>
               <div className="rounded-lg p-2">
                 <h3 className="font-bold">{day.toLocaleDateString('en-US', { weekday: 'long' })}</h3>
                 <p className="text-lg mb-2">{day.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}</p>
@@ -296,8 +296,8 @@ const WeeklyPlanner = () => {
                   placeholder="What's happening today?"
                 ></textarea>
                 {inputs[day.toISOString().split('T')[0]] && (
-                  <button onClick={() => saveToDatabase(day, inputs[day.toISOString().split('T')[0]])} className="absolute bottom-4 right-4 bg-emerald-800 hover:bg-emerald-800 hover:border-emerald-800 hover:border-2 text-white text-base font-bold py-2 px-2 rounded">
-                    Save
+                  <button onClick={() => saveToDatabase(day, inputs[day.toISOString().split('T')[0]])} className="absolute bottom-4 right-4 bg-white border-2 border-gray-50 shadow-lg text-black text-base font-semibold py-2 px-2 rounded transition-transform hover:scale-110 ">
+                    Save me
                   </button>
                 )}
               </div>
