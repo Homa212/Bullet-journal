@@ -147,7 +147,7 @@ const Journal = () => {
                         />
                     </div>
                     <div className="absolute mt-14 inset-0 z-10" style={{ pointerEvents: 'none' }}>
-                        {Array.from({ length: 18 }, (_, i) => (
+                        {Array.from({ length: 20 }, (_, i) => (
                             <div key={i} className="h-7 border-b border-gray-200" />
                         ))}
                     </div>

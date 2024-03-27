@@ -30,9 +30,10 @@ const WeeklyPlanner = () => {
   const [weekStartDate, setWeekStartDate] = useState(startOfWeek(new Date())); // Initialize with the start of the current week
   const [inputs, setInputs] = useState({});
 
-  const isUpdate = async (day) => {
+  const isUpdate = async (e, day) => {
+    e.preventDefault();
     const formattedDate = day.toISOString().split('T')[0];
-    const url = `/weekly_plans/${formattedDate}`;
+    const url = `http://localhost:8000/weekly_plans/${id}`;
 
     try {
       const response = await fetch(url);
@@ -47,8 +48,53 @@ const WeeklyPlanner = () => {
       return false;
     }
   };
-
-
+  
+  const debounceSave = debounce(saveToDatabase, 5000);
+  
+  const saveToDatabase = async (day, value) => {
+    // if (!(day instanceof Date)) {
+      //   console.error('day is not a Date object:', day);
+      //   return;
+      // }
+      
+    const formattedDate = day.toISOString().split('T')[0];
+    const existing = await isUpdate(day);
+    const url = existing ? `http://localhost:8000/weekly_plans/${id}` : 'http://localhost:8000/weekly_plans';
+    const method = existing ? 'PUT' : 'POST';
+    const weekdays = formattedDate;
+    const daily_texts = value;
+    
+    
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({
+          weekday: weekdays,
+          daily_text: daily_texts || null
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const responseData = await response.json();
+      console.log(`Saving '${value}' for ${formattedDate} to the database`, responseData);
+    } catch (error) {
+      console.error('Error saving to database:', error);
+    }
+  };
+    
+  const handleInputChange = (day, value) => {
+    setInputs((prev) => ({ ...prev, [day]: value }));
+    debounceSave(day, value); // Corrected function call
+  };
+    
+    
   useEffect(() => {
     const initialInputs = {};
     const todayDate = startOfWeek(new Date(weekStartDate)); // Renamed currentDate to todayDate
@@ -58,42 +104,6 @@ const WeeklyPlanner = () => {
     }
     setInputs(initialInputs);
   }, [weekStartDate]);
-
-  const saveToDatabase = async (day, value) => {
-    const formattedDate = day.toISOString().split('T')[0];
-    const url = isUpdate(day) ? `/weekly_plans/${formattedDate}` : '/weekly_plans';
-    const method = isUpdate(day) ? 'PUT' : 'POST';
-    const data = {
-      weekday: formattedDate,
-      daily_text: value
-    };
-
-    try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const responseData = await response.json();
-      console.log(`Saving '${value}' for ${formattedDate} to the database`, responseData);
-    } catch (error) {
-      console.error('Error saving to database:', error);
-    }
-  };
-
-  const handleInputChange = (day, value) => {
-    setInputs((prev) => ({ ...prev, [day]: value }));
-    debounceSave(day, value); // Corrected function call
-  };
-
-  const debounceSave = debounce(saveToDatabase, 5000);
 
   const changeWeek = (increment) => {
     const newDate = new Date(weekStartDate);
@@ -159,3 +169,9 @@ const WeeklyPlanner = () => {
 };
 
 export default WeeklyPlanner;
+
+
+
+
+
+

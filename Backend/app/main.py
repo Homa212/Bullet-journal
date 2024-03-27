@@ -34,19 +34,20 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-@app.post("/weekly_plans", status_code=201)
-def add_weekly_plan(weekly_plans: WeeklyPlanSchema, db: Session = Depends(get_db)):
+@app.post("/weekly_plans", tags=["weekly_plans"], status_code=status.HTTP_201_CREATED)
+def add_weekly_plan(weekly_plans: WeeklyPlanSchema, current_user: Annotated[User, Depends(get_current_user)], db: Session = Depends(get_db)):
     try:
-        db_weekly_plan = WeeklyPlan(**weekly_plans.model_dump())
+        user_id = current_user.id 
+        db_weekly_plan = WeeklyPlan(**weekly_plans.model_dump(), users_id=user_id)
         db.add(db_weekly_plan)
         db.commit()
     except IntegrityError as e:
         raise HTTPException(status_code=400, detail="Database error")
     return db_weekly_plan
 
-@app.put("/weekly_plans/{weekly_plans_id}", status_code=status.HTTP_204_NO_CONTENT)
-def update_weekly_plan(weekly_plans_id: int, weekly_plans_info: WeeklyPlanSchema, db: Session = Depends(get_db)):
-    query = select(WeeklyPlan).where(WeeklyPlan.id == weekly_plans_id)
+@app.put("/weekly_plans/{id}", status_code=status.HTTP_204_NO_CONTENT)
+def update_weekly_plan(id: int, weekly_plans_info: WeeklyPlanSchema, db: Session = Depends(get_db)):
+    query = select(WeeklyPlan).where(WeeklyPlan.id == id)
     db_weekly_plans = db.scalars(query).first()
     if not db_weekly_plans:
         raise HTTPException(status_code=404, detail="Weekly plan not found")
@@ -57,9 +58,9 @@ def update_weekly_plan(weekly_plans_id: int, weekly_plans_info: WeeklyPlanSchema
     db.commit()
     return db_weekly_plans
 
-@app.get("/weekly_plans/{weekly_plans_id}", status_code=200)
-def list_weekly_plans(weekly_plans_id: int, db: Session = Depends(get_db)):
-    weekly_plan = db.scalars(select(WeeklyPlan).where(WeeklyPlan.id == weekly_plans_id).options(
+@app.get("/weekly_plans/{id}", status_code=200)
+def list_weekly_plans(id: int, db: Session = Depends(get_db)):
+    weekly_plan = db.scalars(select(WeeklyPlan).where(WeeklyPlan.id == id).options(
         joinedload(WeeklyPlan.habits),joinedload(WeeklyPlan.todos))).all()
     if not weekly_plan:
         raise HTTPException(status_code=404, detail="Weekly plan not found")
