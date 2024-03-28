@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "../components/Footer";
 
 function LandingPage() {
     
@@ -7,6 +8,7 @@ function LandingPage() {
         <div>
             hej
         </div>
+        <Footer/>
         </>
     
     );
